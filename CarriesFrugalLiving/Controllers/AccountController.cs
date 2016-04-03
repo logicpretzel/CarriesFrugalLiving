@@ -13,6 +13,14 @@ using System.Collections;
 
 namespace CarriesFrugalLiving.Controllers
 {
+    /// <summary>
+    /// AccountController
+    /// Description: Account Controller Class
+    /// 
+    /// 
+    /// 
+    /// Revised: 4/3/16
+    /// </summary>
     [Authorize]
     public class AccountController : Controller
     {
@@ -288,7 +296,16 @@ namespace CarriesFrugalLiving.Controllers
                             , "If you received this message unexpectedly please contact us. For security reasons we will not provide a link, but simply access the main site and click Contact Us. Thank you.");
                         var e = eSender.Send(user.Email, "Account changed at CarriesFrugalLiving.com", sBody, true, null);
                         eSender = null;
-                        ViewBag.ErrMsg = e;
+                        if (e.Length > 0 )
+                        {
+                            ViewBag.ErrMsg = e; // to show error
+                        } else
+                        {
+                            return RedirectToAction("Index");
+                        }
+                       
+                        
+
                     }
                   
                 }

@@ -12,6 +12,14 @@ using CarriesFrugalLiving.DAL;
 
 namespace CarriesFrugalLiving.Controllers
 {
+    /// <summary>
+    /// ReviewsController
+    /// Description: Reviews Controller Class
+    /// 
+    /// Author: Dar Dunham
+    /// Date: 3/1/16
+    /// Revised: 4/3/16
+    /// </summary>
     public class ReviewsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

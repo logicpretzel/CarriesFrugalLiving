@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<CarriesFrugalLiving.ViewModels.RecipeGraphData>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Administration - Carrie's Frugal Living";
     Layout = "~/Views/Shared/_LayoutAdminPage.cshtml";
 }
 
-<h2>Index</h2>
+<h2>@ViewBag.Title</h2>
 <div class="row">
     <div class="panel panel-default col-sm-4  ">
         <div class="panel-heading color-complement-1">
@@ -105,11 +105,29 @@
         </div>
 
     </div>
+    <div class="panel panel-danger">
+        <div class="panel-heading ">
+            <a data-toggle="collapse" href="#divReports" title="Reports">
+                <span class="glyphicon glyphicon-print"></span>
+                Reports
+            </a>
+        </div>
+        <div id="divReports" class="panel-body panel-collapse collapse  ">
+
+            <div class="col-sm-3">
+                @Html.ActionLink("Unit Measure Listing", "UnitMeasureReport", "Admin")
+            </div>
+            <div class="col-sm-3">
+                @Html.ActionLink("User Listing", "UserListingReport", "Admin")
+            </div>
+        </div>
+
+    </div>
+    
 
 
 
 
-   
 
 
 }
@@ -125,7 +143,7 @@ else {
 <div class="panel panel-default width_100 ">
     <div class="panel-heading color-complement-1">
         <a data-toggle="collapse" href="#divGraphs" title="Graphs">
-            User Maintenance
+            Graphs (in progress)
         </a>
     </div>
     <div id="divGraphs" class="panel-body panel-collapse collapse in ">
@@ -146,18 +164,8 @@ else {
 
 
 
-                //  alert("Test");
 
 
-                var data = [],
-                    series = Math.floor(Math.random() * 6) + 3;
-
-                for (var i = 0; i < series; i++) {
-                    data[i] = {
-                        label: "Series" + (i + 1),
-                        data: Math.floor(Math.random() * 100) + 1
-                    }
-                }
 
                 $("#placeholder").text("Recipe Stats");
 
@@ -167,18 +175,19 @@ else {
 
                 placeholder.unbind();
 
-              
 
-                $.plot(placeholder, data, {
-                    series: {
-                        pie: {
-                            show: true
+
+                $.getJSON('/Admin/jsonRecipeTotals', function (data) {
+                    $.plot(placeholder, data, {
+                        series: {
+                            pie: {
+                                show: true
+                            }
                         }
-                    }
+                    });
+
 
                 });
-
             });
-
         </script>
     }

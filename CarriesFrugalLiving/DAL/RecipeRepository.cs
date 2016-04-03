@@ -38,13 +38,15 @@ namespace CarriesFrugalLiving.DAL
 
         public IEnumerable<RecipeGraphData> GetRecipeDemos()
         {
-
             IEnumerable<RecipeGraphData> rc = _dc.Database.SqlQuery<RecipeGraphData>("Select * from vwRecipeDemos");
             return rc;
-
         }
 
-
+        public IEnumerable<RecipeCountsByCategoryGraphData> GetRecipeCountsByCategory()
+        {
+            IEnumerable<RecipeCountsByCategoryGraphData> rc = _dc.Database.SqlQuery<RecipeCountsByCategoryGraphData>( "Select CategoryNm as label, RecipeCount as data from vwRecipeDemos");
+            return rc;
+        }
 
         /*
      CREATE PROCEDURE spGetReviewsList 

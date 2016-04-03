@@ -13,6 +13,14 @@ using System.Threading.Tasks;
 
 namespace CarriesFrugalLiving.Controllers
 {
+    /// <summary>
+    /// RecipesController
+    /// Description: Recipes Controller Class
+    /// 
+    /// Author: Dar Dunham
+    /// Date: 3/1/16
+    /// Revised: 4/3/16
+    /// </summary>
     public class RecipesController : Controller
     {
         private const int MAXPICWIDTH = 300;
@@ -808,4 +816,22 @@ Add report this link to disable content
 
 
     //https://www.simple-talk.com/dotnet/asp.net/revisiting-partial-view-rendering-in-asp.net-mvc/
+
+    //TODO: JSON to flot
+    http://stackoverflow.com/questions/23604504/asp-net-mvc-passing-json-to-view-from-controller
+        // by Se0ng11
+        //
+        //    //Controller
+        //   [httpPost]
+        //    public JsonResult something(string userGuid)
+        //    {
+        //        var p = GetUserProducts(userGuid);
+        //        return Json(p, JsonRequestBehavior.AllowGet);
+        //    }
+        //
+        //   //call with ajax
+        //$.post( "../something", {userGuid: "foo"}, function( data ) {
+        //  console.log(data)
+        //});
+//http://stackoverflow.com/questions/4907422/asp-net-mvc-get-current-host
 */

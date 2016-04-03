@@ -11,45 +11,59 @@ using CarriesFrugalLiving.Models;
 
 namespace CarriesFrugalLiving.Controllers
 {
+    /// <summary>
+    /// AbuseReportsController
+    /// Description: Abuse Controller Class
+    /// 
+    /// Author: Dar Dunham
+    /// Date: 3/1/16
+    /// Revised: 4/3/16
+    /// </summary>
     public class AbuseReportsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: AbuseReports
-        public async Task<ActionResult> Index()
-        {
-            if (User.Identity.IsAuthenticated == false)
+        private ActionResult NotAdmin() {
+            if (!User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Login", "Account");
             }
             else
             {
-                if (!User.IsInRole("Admin"))
-                {
-
-                    TempData["Msg"] = "You need to be and administrator to access this function.";
-                    return RedirectToAction("NeedLogon", "Home", null);
-                }
+               TempData["Msg"] = "You need to be and administrator to access this function.";
+               return RedirectToAction("NeedLogon", "Home", null);
+                
             }
+        }
+
+        private bool IsAdmin()
+        {
+            if (User.Identity.IsAuthenticated == false)
+            {
+                return false;
+            }
+          
+            if (User.IsInRole("Admin"))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        // GET: AbuseReports
+        public async Task<ActionResult> Index()
+        {
+
+           if (IsAdmin() == false) { return NotAdmin();  }
+           
             return View(await db.AbuseReports.ToListAsync());
         }
 
         // GET: AbuseReports/Details/5
         public async Task<ActionResult> Details(int? id)
         {
-            if (User.Identity.IsAuthenticated == false)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-            else
-            {
-                if (!User.IsInRole("Admin"))
-                {
+            if (IsAdmin() == false) { return NotAdmin(); }
 
-                    TempData["Msg"] = "You need to be and administrator to access this function.";
-                    return RedirectToAction("NeedLogon", "Home", null);
-                }
-            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -65,19 +79,8 @@ namespace CarriesFrugalLiving.Controllers
         // GET: AbuseReports/Create
         public ActionResult Create()
         {
-            if (User.Identity.IsAuthenticated == false)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-            else
-            {
-                if (!User.IsInRole("Admin"))
-                {
+            if (IsAdmin() == false) { return NotAdmin(); }
 
-                    TempData["Msg"] = "You need to be and administrator to access this function.";
-                    return RedirectToAction("NeedLogon", "Home", null);
-                }
-            }
             return View();
         }
 
@@ -88,19 +91,8 @@ namespace CarriesFrugalLiving.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "ID,RecipeID,ReviewID,UserCD,CreateDate,AbuseType,Comment")] AbuseReport abuseReport)
         {
-            if (User.Identity.IsAuthenticated == false)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-            else
-            {
-                if (!User.IsInRole("Admin"))
-                {
+            if (IsAdmin() == false) { return NotAdmin(); }
 
-                    TempData["Msg"] = "You need to be and administrator to access this function.";
-                    return RedirectToAction("NeedLogon", "Home", null);
-                }
-            }
             if (ModelState.IsValid)
             {
                 db.AbuseReports.Add(abuseReport);
@@ -114,19 +106,8 @@ namespace CarriesFrugalLiving.Controllers
         // GET: AbuseReports/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
-            if (User.Identity.IsAuthenticated == false)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-            else
-            {
-                if (!User.IsInRole("Admin"))
-                {
+            if (IsAdmin() == false) { return NotAdmin(); }
 
-                    TempData["Msg"] = "You need to be and administrator to access this function.";
-                    return RedirectToAction("NeedLogon", "Home", null);
-                }
-            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -146,19 +127,8 @@ namespace CarriesFrugalLiving.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "ID,RecipeID,ReviewID,UserCD,CreateDate,AbuseType,Comment")] AbuseReport abuseReport)
         {
-            if (User.Identity.IsAuthenticated == false)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-            else
-            {
-                if (!User.IsInRole("Admin"))
-                {
+            if (IsAdmin() == false) { return NotAdmin(); }
 
-                    TempData["Msg"] = "You need to be and administrator to access this function.";
-                    return RedirectToAction("NeedLogon", "Home", null);
-                }
-            }
             if (ModelState.IsValid)
             {
                 db.Entry(abuseReport).State = EntityState.Modified;
@@ -171,19 +141,8 @@ namespace CarriesFrugalLiving.Controllers
         // GET: AbuseReports/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
-            if (User.Identity.IsAuthenticated == false)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-            else
-            {
-                if (!User.IsInRole("Admin"))
-                {
+            if (IsAdmin() == false) { return NotAdmin(); }
 
-                    TempData["Msg"] = "You need to be and administrator to access this function.";
-                    return RedirectToAction("NeedLogon", "Home", null);
-                }
-            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -201,19 +160,8 @@ namespace CarriesFrugalLiving.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            if (User.Identity.IsAuthenticated == false)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-            else
-            {
-                if (!User.IsInRole("Admin"))
-                {
+            if (IsAdmin() == false) { return NotAdmin(); }
 
-                    TempData["Msg"] = "You need to be and administrator to access this function.";
-                    return RedirectToAction("NeedLogon", "Home", null);
-                }
-            }
             AbuseReport abuseReport = await db.AbuseReports.FindAsync(id);
             db.AbuseReports.Remove(abuseReport);
             await db.SaveChangesAsync();

@@ -17,6 +17,10 @@ namespace CarriesFrugalLiving.ViewModels
        
     
     }
-    
 
+    public class RecipeCountsByCategoryGraphData
+    {
+        public string label { get; set; }
+        public int data { get; set; }
+     }
 }

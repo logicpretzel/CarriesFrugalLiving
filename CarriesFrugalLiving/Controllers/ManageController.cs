@@ -10,6 +10,14 @@ using CarriesFrugalLiving.Models;
 
 namespace CarriesFrugalLiving.Controllers
 {
+    /// <summary>
+    /// ManageController
+    /// Description: Manage User Actions Class
+    /// 
+    /// Author: Dar Dunham
+    /// Date: 3/1/16
+    /// Revised: 4/3/16
+    /// </summary>
     [Authorize]
     public class ManageController : Controller
     {

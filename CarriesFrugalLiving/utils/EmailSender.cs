@@ -5,7 +5,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Web;
 
 namespace CarriesFrugalLiving.utils
 {
@@ -85,12 +85,20 @@ namespace CarriesFrugalLiving.utils
             {
                 rc = e.Message;
             }
+
             // assign outgoing server
             //SmtpClient smtp = new SmtpClient("smtpout.secureserver.net", _port);
             //SmtpClient smtp = new SmtpClient("relay-hosting.secureserver.net", _port);
+
+            string servernm = "relay-hosting.secureserver.net";
+            //if (HttpContext.Current.ApplicationInstance.Request.Url.Host  == "localhost")
+            //{
+            //    servernm = "smtpout.secureserver.net";  // to test in ide
+            //}
+
             try
             {
-                SmtpClient smtp = new SmtpClient("smtp.secureserver.net", _port);
+                SmtpClient smtp = new SmtpClient(servernm, _port);
 
                 smtp.Timeout = 90000;
                 smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
@@ -102,7 +110,7 @@ namespace CarriesFrugalLiving.utils
                 smtp.Send(mailMessage);
             }
             catch (Exception e) {
-                rc = e.Message;
+                rc = e.Message;  // send back error message if any
             }
 
             return rc;

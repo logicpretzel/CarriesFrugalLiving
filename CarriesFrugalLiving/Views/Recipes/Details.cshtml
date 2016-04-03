@@ -8,7 +8,11 @@
 
 <div>
     <div class="text-right sigfont ">(ID: @Html.DisplayFor(model => model.ID))</div>
-    <h4>Recipe</h4>
+  
+    <a href="@Url.Action("List")" title="Back to list/search">
+        <i class="glyphicon glyphicon-backward"></i>
+        <span class="sr-only">Back to list</span>
+    </a>
     <div class="text-right">
         <a href="@Url.Action("RecipePrint", new { id = Model.ID })" title="Print Recipe View">
             <i class="glyphicon glyphicon-print"></i>

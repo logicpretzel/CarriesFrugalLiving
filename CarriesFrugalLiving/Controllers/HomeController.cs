@@ -10,6 +10,14 @@ using System.Web.Mvc;
 
 namespace CarriesFrugalLiving.Controllers
 {
+    /// <summary>
+    /// HomeController
+    /// Description: Home Controller Class
+    /// 
+    /// Author: Dar Dunham
+    /// Date: 3/1/16
+    /// Revised: 4/3/16
+    /// </summary>
     public class HomeController : Controller
     {
         public ActionResult NeedLogon() {

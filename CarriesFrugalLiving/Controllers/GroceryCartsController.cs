@@ -15,6 +15,14 @@ using PagedList;
 
 namespace CarriesFrugalLiving.Controllers
 {
+    /// <summary>
+    /// GroceryCartsController
+    /// Description: Grocery Carts Controller Class
+    /// 
+    /// Author: Dar Dunham
+    /// Date: 3/1/16
+    /// Revised: 4/3/16
+    /// </summary>
     public class GroceryCartsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
