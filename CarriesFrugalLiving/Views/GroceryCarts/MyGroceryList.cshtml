@@ -1,0 +1,60 @@
+﻿@model CarriesFrugalLiving.Models.GroceryCart
+@{
+    Layout = "~/Views/Shared/_LayoutReport.cshtml";
+    if (Request.UrlReferrer != null)
+    {
+        if (Request.UrlReferrer.ToString().ToLower().Contains("addtocart") == true)
+        {
+            if (ViewBag.RecipeID == null)
+            {
+                ViewBag.RecipeID = Session["LastRecipeID"];
+            }
+        }
+    }
+}
+
+
+<div class="width_100 text-center color-primary-0 ">
+    <h4 class="color-secondary-1-0">Grocery List</h4>
+    
+    <hr />
+    <input id="Button1" type="button" value="Print" onclick="window.print();" class="no-print btn-primary" />
+    <dl class="dl-horizontal sigfont width_50">
+      
+      
+
+        
+
+        <dt class="fontlabel width_42">
+            List Name:
+        </dt>
+
+        <dd class="fontlabel width_42">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="width_42">
+            Created:
+        </dt >
+
+        <dd class="width_42">
+            @Html.DisplayFor(model => model.CreateDate)
+        </dd>
+    </dl>
+</div>
+
+@Html.Action("MyGroceryListItems", "GroceryCarts", new { id = Model.ID })
+
+<div class="well no-print col-sm-4">
+
+
+        @if (ViewBag.RecipeID != null)
+        {
+            @Html.ActionLink("Back to Recipe View", "Details", "Recipes", new { id = ViewBag.RecipeID }, null)
+        }
+        else
+        {
+            @Html.ActionLink("Back", "List", "Recipes")
+
+        }
+    
+ </div>

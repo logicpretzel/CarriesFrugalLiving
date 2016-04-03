@@ -1,0 +1,34 @@
+﻿@model IEnumerable<CarriesFrugalLiving.Models.GCartItem>
+
+
+<hr />
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th></th>
+        <th></th>
+    </tr>
+   
+@foreach (var item in Model) { 
+    <tr>
+        
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.HiddenFor(modelItem => item.GroceryCartID)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "EditCartItem", new { id=item.ID }) |
+            
+            <button class="btn btn-sm btn-danger" onclick="d(@item.ID)">
+                <span class="glyphicon glyphicon-trash"></span>
+            </button>
+        </td>
+    </tr>
+}
+
+</table>

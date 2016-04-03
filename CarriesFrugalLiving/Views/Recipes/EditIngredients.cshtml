@@ -1,0 +1,138 @@
+﻿@model CarriesFrugalLiving.Models.Recipe
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>@Html.DisplayFor(model => model.Name)</h2>
+
+<div>
+    <h4>Recipe</h4>
+    <hr />
+    <div class="row">
+        <div class="col-sm-8">
+            <dl class="dl-horizontal ">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ShortDescription)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ShortDescription)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Category)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Category)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.IngredientString)
+                </dt>
+
+                <dd>
+                   
+                    @Html.Action("IngredientDetails", "Recipes", new { id = Model.ID })
+                    <br />
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        @Html.ActionLink("Add Ingredient", "AddIngredient", new { id = Model.ID })<br />
+                    }
+                    <br />
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Preparation)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Preparation)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.CookingInstructions)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.CookingInstructions)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.CookingMethod)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.CookingMethod)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ServingInstructions)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ServingInstructions)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.NutritionInformation)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.NutritionInformation)
+                </dd>
+
+               
+
+
+            </dl>
+        </div>
+        
+        <div class="col-sm-4">
+            <div class="well">Number of Reviews: @(ViewBag.ReviewCount) <br />
+            Average Rating: @(ViewBag.AverageRating) 
+                <div class="rateit "data-rateit-value="@(ViewBag.AverageRating)" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+</div><br />
+            <hr />
+            @Html.Action("Picture", "Recipes", new { recipeId = Model.ID })
+        </div>
+       
+
+    </div>
+
+   
+</div>
+<div>
+    @Html.Action("ReviewList", "Recipes", new { id = Model.ID })
+</div>
+<p>
+    @if (User.Identity.IsAuthenticated)
+    {
+
+
+        @Html.ActionLink("AddIngredient", "AddIngredient", new { id = Model.ID })<br /><br />
+
+        @Html.ActionLink("Edit", "Edit", new { id = Model.ID })
+        <br />
+        @Html.ActionLink("Review This Recipe", "AddReview", new { id = Model.ID })
+
+        <br />
+        @Html.ActionLink("Upload Image", "Upload", new { id = Model.ID })
+
+
+    }
+    else
+    {
+
+    }
+     |
+
+    @Html.ActionLink("Back to List", "Index")
+</p>

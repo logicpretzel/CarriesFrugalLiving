@@ -1,0 +1,187 @@
+﻿@model CarriesFrugalLiving.Models.Recipe
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>@Html.DisplayFor(model => model.Name)</h2>
+
+<div>
+    <div class="text-right sigfont ">(ID: @Html.DisplayFor(model => model.ID))</div>
+    <h4>Recipe</h4>
+    <div class="text-right">
+        <a href="@Url.Action("RecipePrint", new { id = Model.ID })" title="Print Recipe View">
+            <i class="glyphicon glyphicon-print"></i>
+            <span class="sr-only">Edit</span>
+        </a>
+@if (User.Identity.IsAuthenticated)
+{
+    <a href="@Url.Action("AddReview", new { id = Model.ID })" title="Review This Recipe">
+        <i class="glyphicon glyphicon-comment"></i>
+        <span class="sr-only">Review This Recipe</span>
+    </a>
+    if ((User.IsInRole("Admin") || (User.Identity.Name.ToString().Trim().ToLower()) == (Model.UserCd.Trim().ToLower())))
+    {
+        <a href="@Url.Action("Edit", new { id = Model.ID })" title="Edit This Recipe">
+            <i class="glyphicon glyphicon-pencil"></i>
+            <span class="sr-only">Edit</span>
+        </a>
+    }
+
+        <a href="@Url.Action("AddToCart", new { recipeID = Model.ID })" title="Add To Grocery List" >
+            <i class="glyphicon glyphicon-shopping-cart"></i>
+            <span class="sr-only">Add to grocery list</span>
+        </a>
+}
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-sm-8">
+            <dl class="dl-horizontal ">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ShortDescription)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ShortDescription)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Category)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Category)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.IngredientString)
+                </dt>
+
+                <dd>
+                   
+                    @Html.Action("IngredientDetails", "Recipes", new { id = Model.ID })
+                    <br />
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        @Html.ActionLink("Add Ingredient", "AddIngredient", new { id = Model.ID })<br />
+                    }
+                    <br />
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Preparation)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Preparation)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.CookingInstructions)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.CookingInstructions)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.CookingMethod)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.CookingMethod)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ServingInstructions)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ServingInstructions)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.NutritionInformation)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.NutritionInformation)
+                </dd>
+
+               
+
+
+            </dl>
+        </div>
+        
+        <div class="col-sm-4">
+            <div class="well">Number of Reviews: @(ViewBag.ReviewCount) <br />
+            Average Rating: @(ViewBag.AverageRating) 
+                <div class="rateit "data-rateit-value="@(ViewBag.AverageRating)" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+       </div><br />
+            <hr />
+            @Html.Action("Picture", "Recipes", new { recipeId = Model.ID })
+        </div>
+       
+
+    </div>
+
+   
+</div>
+
+<div>
+    @if (User.Identity.IsAuthenticated)
+    {
+
+
+        <a href="@Url.Action("AddReview", new { id = Model.ID })" title="Review This Recipe" class="btn btn-primary">
+            Review This Recipe
+        </a>
+      
+
+    }
+
+    @Html.Action("ReviewList", "Recipes", new { id = Model.ID })
+</div>
+<div style="clear:both;">
+
+</div>
+<p>
+    @if (User.Identity.IsAuthenticated)
+    {
+
+        if ((User.IsInRole("Admin") || (User.Identity.Name.ToString().Trim().ToLower()) == (Model.UserCd.Trim().ToLower())))
+        {
+            <div class="row">
+                <div class="col-sm-6 alert alert-info">
+                    Since you are the author you may make changes by clicking the &quot;Edit&quot; link.<br />
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="well" >
+                    <a href="@Url.Action("Edit", new { id = Model.ID })" title="Edit This Recipe" class="btn btn-info">
+                        Edit This Recipe
+                    </a>
+
+                   
+                </div>
+            </div>
+        }
+
+    }
+    else
+    {
+
+    }
+    <br />     
+<p>
+    @Html.ActionLink("Back to List", "List")
+</p>

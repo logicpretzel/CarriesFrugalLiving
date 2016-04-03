@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "Need Logon";
+
+    if (ViewBag.Message == null) {
+        if (TempData["Msg"] != null)
+        {
+            ViewBag.Message = TempData["Msg"].ToString();
+        }
+        else {
+            ViewBag.Message = "This function requires you to be logged in to our system.";
+        }
+    }
+}
+
+<h2>Need To Logon</h2>
+<div class="well alert alert-warning">
+   @ViewBag.Message
+
+    <a href="@Url.Action( "Login", "Account" ) ">Click&nbsp;here</a>&nbsp;to login.
+    
+    Thank you.
+</div>
+<div>
+    <a href="@Url.Action( "Index", "Home" ) ">[ Home ]</a>
+</div>
+
+

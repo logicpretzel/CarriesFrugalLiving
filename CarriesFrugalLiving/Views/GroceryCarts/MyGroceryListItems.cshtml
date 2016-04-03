@@ -1,0 +1,23 @@
+﻿@model IEnumerable<CarriesFrugalLiving.ViewModels.vCartItem>
+@{
+    Layout = "";
+}
+
+<div class="columns3 width_100 color-secondary-1-0" >
+
+
+        @foreach (var item in Model)
+        {
+            <div class="row tablechart width_100">
+              
+                     <span class="glyphicon  glyphicon-star-empty"></span>
+                   @Html.DisplayFor(modelItem => item.sQty)
+                   @Html.DisplayFor(modelItem => item.Description)
+               
+
+            </div>
+        }
+
+
+
+</div>

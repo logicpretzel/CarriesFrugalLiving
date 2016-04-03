@@ -1,0 +1,184 @@
+﻿@model IEnumerable<CarriesFrugalLiving.ViewModels.RecipeGraphData>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdminPage.cshtml";
+}
+
+<h2>Index</h2>
+<div class="row">
+    <div class="panel panel-default col-sm-4  ">
+        <div class="panel-heading color-complement-1">
+            <span class="glyphicon glyphicon-check"></span>
+            <a data-toggle="collapse" href="#divStats" title="Statistics">
+               
+                Recipe Stats
+            </a>
+               
+           
+        </div>
+        <div id="divStats" class="panel-body panel-collapse collapse  in ">
+            <table class="width_100">
+                <tr>
+                    <th class="fontsmall text-left">Category</th>
+                    <th class="fontxsmall text-center">Recipe Count</th>
+                    <th class="fontxsmall text-center">Unique Users</th>
+                    <th class="fontxsmall text-center">Reviews</th>
+                </tr>
+                @foreach (var item in Model)
+                {
+                  <tr>
+                     <td>@Html.DisplayFor(modelItem => item.CategoryNm)</td>
+                     <td class="fontsmall text-center">@Html.DisplayFor(modelItem => item.RecipeCount)</td>
+                     <td class="fontsmall text-center">@Html.DisplayFor(modelItem => item.UserCount)</td>
+                      <td class="fontsmall text-center">@Html.DisplayFor(modelItem => item.ReviewCount)</td>
+                  </tr>
+                }
+            </table>
+        </div>
+
+    </div>
+</div>
+
+@if ((User.Identity.IsAuthenticated) && (User.IsInRole("Admin") == true))
+{
+
+    <div class="panel panel-danger  ">
+        <div class="panel-heading color-complement-1">
+            <a data-toggle="collapse" href="#divUsers" title="User Maintenance">
+                <span class="glyphicon glyphicon-user"></span>
+                User Maintenance
+            </a>
+        </div>
+        <div id="divUsers" class="panel-body panel-collapse collapse ">
+            <div class="col-sm-3">
+                @Html.ActionLink("Users", "Index", "Account")
+            </div>
+
+
+            <div class="col-sm-3">
+                @Html.ActionLink("User Roles", "Index", "Roles")
+            </div>
+        </div>
+
+    </div>
+
+    <div class="panel panel-success  ">
+        <div class="panel-heading color-complement-1">
+            <a data-toggle="collapse" href="#divMasterTables" title="Master Table Maintenance">
+                <span class="glyphicon glyphicon-cog"></span>
+                Master Table Maintenance
+            </a>
+        </div>
+        <div id="divMasterTables" class="panel-body panel-collapse collapse ">
+
+            <div class="col-sm-3">
+                @Html.ActionLink("UnitMeasure Maintenance", "UMList")
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading ">
+            <a data-toggle="collapse" href="#divUserTables" title="Data Table Maintenance">
+                <span class="glyphicon glyphicon-book"></span>
+                Data Tables Maintenance
+            </a>
+        </div>
+        <div id="divUserTables" class="panel-body panel-collapse collapse  ">
+
+            <div class="col-sm-3">
+                @Html.ActionLink("Grocery Cart Maintenance", "Index", "GroceryCarts")
+            </div>
+
+            <div class="col-sm-3">
+                @Html.ActionLink("Reviews Maintenance", "Index", "Reviews")
+            </div>
+
+            <div class="col-sm-3">
+                @Html.ActionLink("Abuse Report Maintenance", "Index", "AbuseReports")
+            </div>
+
+
+
+        </div>
+
+    </div>
+
+
+
+
+   
+
+
+}
+else {
+    <div>You must be a site adminitrator to access this page.</div>
+    <div class="col-sm-12">
+        @Html.ActionLink("Home","Index", "Home")
+    </div>
+
+
+}
+
+<div class="panel panel-default width_100 ">
+    <div class="panel-heading color-complement-1">
+        <a data-toggle="collapse" href="#divGraphs" title="Graphs">
+            User Maintenance
+        </a>
+    </div>
+    <div id="divGraphs" class="panel-body panel-collapse collapse in ">
+
+
+        <div id="placeholder" class="well" style="width:600px ;height:400px; background-color: white;"></div>
+
+
+    </div>
+</div>
+   
+
+    @section scripts {
+
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+
+
+
+                //  alert("Test");
+
+
+                var data = [],
+                    series = Math.floor(Math.random() * 6) + 3;
+
+                for (var i = 0; i < series; i++) {
+                    data[i] = {
+                        label: "Series" + (i + 1),
+                        data: Math.floor(Math.random() * 100) + 1
+                    }
+                }
+
+                $("#placeholder").text("Recipe Stats");
+
+                var placeholder = $("#placeholder");
+
+
+
+                placeholder.unbind();
+
+              
+
+                $.plot(placeholder, data, {
+                    series: {
+                        pie: {
+                            show: true
+                        }
+                    }
+
+                });
+
+            });
+
+        </script>
+    }

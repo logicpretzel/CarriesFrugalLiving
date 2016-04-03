@@ -1,0 +1,64 @@
+﻿@model CarriesFrugalLiving.Models.AbuseReport
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>AbuseReport</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.RecipeID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RecipeID)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ReviewID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReviewID)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UserCD)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserCD)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreateDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreateDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AbuseType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AbuseType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Comment)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Comment)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

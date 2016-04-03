@@ -1,0 +1,193 @@
+﻿@model IEnumerable<CarriesFrugalLiving.Models.Recipe>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@*
+    Author: Dar Dunham
+      Date: 2/15/15
+*@
+
+
+
+
+<!-- Carousel
+    ================================================== -->
+<div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner" role="listbox">
+        <div class="item active">
+            <img class="first-slide" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="First slide">
+            <div class="container">
+                <div class="carousel-caption">
+                    <h1>Become a Member</h1>
+                    <p>If you enjoy sharing recipes, or would like to give feedback on those you've tried, you may Register and ask to
+                    be a contributer. It's easy to join and it's free! Just click the button below or the &quot;Register&quot; link
+                    at the top right.</p>
+                    <p><a class="btn btn-lg btn-primary" href='@Url.Action("Register", "Account" )' role="button">Sign up today</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <img class="second-slide" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Second slide">
+            <div class="container">
+                <div class="carousel-caption">
+                    <h1>On Facebook</h1>
+                    <p>Find even more great information on Carrie's Frugal Living Facebook Site.</p>
+                    <p><a class="btn btn-lg btn-primary" href="https://www.facebook.com/carolynsfrugalliving/" role="button">Facebook</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <img class="third-slide" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Third slide">
+            <div class="container">
+                <div class="carousel-caption">
+                    <h1>Recipies</h1>
+                    <p>For a list of recipes, scroll down on this page and click the picture of the desired category, or simply
+                     click the button below.  </p>
+                    <p><a class="btn btn-lg btn-primary" href='@Url.Action("List" )'  role="button">Browse gallery</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div><!-- /.carousel -->
+
+<div class="row">
+    <div class="col-sm-4">
+        <div class="well">
+            Total Recipes: @ViewBag.TotalRecipes
+        </div>
+    </div>
+    <div class="col-sm-8">
+        <a href="~/Recipes/List/" class="btn btn-primary">Browse Entire Recipe Listing</a>
+    </div>
+
+</div>
+
+<!-- CREATE NEW RECIPE -->
+@{  if (User.Identity.IsAuthenticated)
+    {
+        if (User.IsInRole("Admin") || User.IsInRole("Contributer"))
+        {
+                @Html.ActionLink("Create New", "Create")
+        }
+    }
+ }
+
+
+
+<!-- Start Search Buttons -->
+<section class="centered">
+    <div class="width_100 centered">
+
+        <div class="row centered">
+            <div class="col-sm-1 ">&nbsp;</div>
+
+                <div class="col-sm-5 padded">
+                    <span class="color-complement-0 fontlabel">Entrees</span>
+                    <a id="searchLink1" class="btn btn-primary " href="/Recipes/List?scategory=1">
+
+                        <img class="flex" src="~/images/entree.jpg" alt="Entree" />
+                    </a>
+                </div>
+                <div class="col-sm-5 padded">
+                    <span class="color-complement-0 fontlabel">Sides</span>
+                    <a id="searchLink3" class="btn btn-primary " href="/Recipes/List?scategory=SIDEDISH">
+
+                        <img class="flex" src="~/images/sidedish.png" alt="Side Dish Carrots" />
+                    </a>
+                </div>
+            </div>
+        <div class="row centered">
+            <div class="col-sm-1 ">&nbsp;</div>
+            <div class="col-sm-5 padded">
+                <span class="color-complement-0 fontlabel">Desserts</span>
+                <a id="searchLink2" class="btn btn-primary " href="/Recipes/List?scategory=DESSERT">
+
+                    <img class="flex" src="~/images/flourlesschocolatecake.jpg" alt="Chocolate Cake" />
+                </a>
+            </div>
+
+            <div class="col-sm-5 padded">
+                <span class="color-complement-0 fontlabel">Soups</span>
+                <a id="searchLink6" class="btn btn-primary " href="/Recipes/List?scategory=SOUP">
+
+
+                    <img class="flex" src="~/images/soup.png" alt="Soup" />
+
+                </a>
+
+            </div>
+        </div>
+        <div class="row centered">
+            <div class="col-sm-1 ">&nbsp;</div>
+            <div class="col-sm-5 padded">
+                <span class="color-complement-0 fontlabel">Breads</span>
+                <a id="searchLink3" class="btn btn-primary " href="/Recipes/List?scategory=BREAD">
+
+                    <img class="flex" src="~/images/bread.png" alt="Bread" />
+                </a>
+            </div>
+            <div class="col-sm-5 padded">
+                <span class="color-complement-0 fontlabel">Salads</span>
+                <a id="searchLink7" class="btn btn-primary " href="/Recipes/List?scategory=SALAD">
+
+                    <img class="flex" src="~/images/salad.png" alt="Salad" />
+                </a>
+            </div>
+        </div>
+
+
+    </div>
+    <!-- End Search Buttons -->
+</section>
+    <p>
+
+    </p>
+<br />
+    <blockquote>
+
+        <a href="~/Recipes/List/" class="btn btn-primary">Browse Entire Recipe Listing</a>
+        <br />
+
+        <br />
+        <p>
+            <!-- CREATE NEW RECIPE -->
+            @{  if (User.Identity.IsAuthenticated)
+                {
+                    if (User.IsInRole("Admin") || User.IsInRole("Contributer"))
+                    {
+                        @Html.ActionLink("Create New", "Create")
+                    }
+                    else
+                    {
+                        <div class="alert alert-info col-sm-8">
+                            I see you have an account. If you would like to be able to contribute recipes,<br />
+                            please use our Contact page to indicate your desire to do so.<br /><br />
+
+                            <a href="@Url.Action("Contact", "Home")" title="Contact Us and state you want to contribute!" class="btn btn-primary">
+                                Contact Us!
+                            </a>
+                           
+                        </div>
+                    }
+                }
+            }
+
+
+        </p>
+    </blockquote>

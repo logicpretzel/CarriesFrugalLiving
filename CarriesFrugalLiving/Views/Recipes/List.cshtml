@@ -1,0 +1,68 @@
+﻿@model IEnumerable<CarriesFrugalLiving.Models.Recipe>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Recipes Listing</h2>
+<div class="col-sm-12>">
+    <div class="well col-sm-4">
+        Total Recipes: @ViewBag.TotalRecipes
+    </div>
+    <div class="well col-sm-8">
+        <form id="formsearch" name="formsearch" method="post" action="/Recipes/List" >
+            @Html.AntiForgeryToken()
+            <input type="text" name="kw" />
+            <span class="glyphicon glyphicon-search" >
+                <input name="search" type="submit" />
+            </span>
+        </form>
+        Search: 
+    </div>
+
+</div>
+<p>
+@if (User.Identity.IsAuthenticated == true)
+{
+    
+    @Html.ActionLink("Create New", "Create")
+}
+</p>
+<section>
+    <div class="row">
+        <div class="col-sm-3">
+            Name
+        </div>
+        <div class="col-sm-5">
+            Description
+        </div>
+
+
+    </div>
+
+    @foreach (var item in Model)
+    {
+        <div class="row">
+            <div class="col-sm-2 padded">
+                @Html.ActionLink(item.Name, "Details", new { id = item.ID })
+
+            </div>
+            <div class="col-sm-4 padded">
+                @Html.DisplayFor(modelItem => item.ShortDescription)
+            </div>
+            <div class="col-sm-4 padded">
+                <a href="@Url.Action("Details", new { id = item.ID })">
+                    @Html.Action("Picture", "Recipes", new { recipeId = item.ID })
+                </a>
+            </div>
+            <div class="col-sm-1 ">
+                <a href="@Url.Action("Details", new { id = item.ID })">
+                    <i class="glyphicon glyphicon-ok-circle"></i>
+                    <span class="sr-only">Edit</span>
+                </a>
+
+            </div>
+
+        </div>
+    }
+</section>

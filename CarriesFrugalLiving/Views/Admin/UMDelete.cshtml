@@ -1,0 +1,64 @@
+﻿@model CarriesFrugalLiving.Models.UnitMeasure
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>UnitMeasure</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TypeCd)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TypeCd)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Abbrev)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Abbrev)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EquivalentValue)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EquivalentValue)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EquivalentMeasure)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EquivalentMeasure)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

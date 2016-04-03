@@ -1,0 +1,57 @@
+﻿@model IEnumerable<CarriesFrugalLiving.Models.UnitMeasure>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<p>
+    @Html.ActionLink("Create New", "UMCreate")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TypeCd)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Abbrev)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EquivalentValue)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EquivalentMeasure)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TypeCd)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Abbrev)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EquivalentValue)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EquivalentMeasure)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "UMEdit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "UMDetails", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "UMDelete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>
+<p>@Html.ActionLink("Admin Index", "Index")</p>

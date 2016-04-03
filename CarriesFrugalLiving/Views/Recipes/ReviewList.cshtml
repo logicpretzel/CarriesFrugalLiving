@@ -1,0 +1,53 @@
+﻿@model IEnumerable<CarriesFrugalLiving.Models.Review>
+
+@{
+    Layout = "";
+}
+<hr />
+<span class="text-info">Average Rating: @(ViewBag.AverageRating) stars</span><div class="rateit " data-rateit-value="@(ViewBag.AverageRating)" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+<hr />
+@if (ViewBag.TotalReviews == 0)
+{
+   <span>Be the first to rate this recipe!</span>
+}
+else {
+
+    <div id="accordion" class="panel-group  col-sm-5">
+
+        @foreach (var item in Model)
+        {
+
+
+            <div class="panel panel-default  ">
+                <div class="panel-heading color-complement-1">
+                    <a data-toggle="collapse" href="#dv1_@(item.ID)" title="Click Rating (left) to see review.">
+                        <span> Rating: @Html.DisplayFor(modelItem => item.Rating)</span>
+                    </a>
+                    <div class="rateit " data-rateit-value="@((int)item.Rating)" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+                </div>
+
+                <div id="dv1_@(item.ID)" class="panel-body panel-collapse collapse ">
+                    @if (item.ReviewText != null)
+                    {
+                        <br />
+
+                        <span>Comments:</span><br />
+                        <span class="reviewfont color-secondary-1-0"> @Html.DisplayFor(modelItem => item.ReviewText)</span><br />
+                    }
+                    <br />
+                    <span class="color-secondary-1-1 sigfont">Reviewed By: @Html.DisplayFor(modelItem => item.ReviewerDisplayName)</span><br />
+                    <br />
+
+                    <div class="col-sm-4">
+                        <a href="@Url.Action("ReportReview", new { id = item.ID })">
+                            <i class="glyphicon glyphicon-ban-circle"></i>
+                            <span class="sr-only">Report</span>Report this link!
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+
+}

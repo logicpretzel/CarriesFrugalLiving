@@ -1,0 +1,27 @@
+﻿@model CarriesFrugalLiving.Models.Image
+@{
+    Layout = "";
+
+}
+<div>
+    @{
+        if (Model.ImageData != null)
+        {
+            string imageBase64 = Convert.ToBase64String(Model.ImageData);
+            string imageSrc = string.Format("data:{1};base64,{0}", imageBase64, Model.ContentType);
+            <img src="@imageSrc" class="flex"  />
+        
+        } else {
+    <img src="~/images/noimage.jpg" width="300" height="225" alt="no image available" />
+            if (User.Identity.IsAuthenticated) {
+                if ((User.IsInRole("Admin") || (User.Identity.Name.ToString().Trim().ToLower()) == (ViewBag.UserCD.ToString().ToLower())))
+                {
+                    @Html.ActionLink("Upload Image", "Upload", new { id = Model.RecipeID })
+                }
+            }
+        }
+    }
+</div>
+
+ 
+

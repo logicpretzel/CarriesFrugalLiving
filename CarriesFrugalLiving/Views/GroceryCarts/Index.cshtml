@@ -1,0 +1,69 @@
+﻿@model IEnumerable<CarriesFrugalLiving.Models.GroceryCart>
+@using PagedList.Mvc;
+@using PagedList;
+
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Index";
+    var pagedlist = (IPagedList)Model;
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        @if (User.IsInRole("Admin"))
+        {
+        <th>
+            @Html.DisplayNameFor(model => model.UserCD)
+        </th>
+        }
+        <th>
+            @Html.ActionLink("Create Date", "Index", new { sortOrder = ViewBag.DateSortParm })
+        </th>
+        <th>
+           @Html.ActionLink("Email Address", "Index", new { sortOrder = ViewBag.EmailSortParm })
+        </th>
+        <th>
+           @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParm })
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        @if (User.IsInRole("Admin"))
+        {
+        <td>
+            @Html.DisplayFor(modelItem => item.UserCD)
+        </td>
+        }
+        <td>
+            @Html.DisplayFor(modelItem => item.CreateDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>
+<br />
+Page @(pagedlist.PageCount < pagedlist.PageNumber ? 0 : pagedlist.PageNumber) of @pagedlist.PageCount
+
+@Html.PagedListPager(pagedlist, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+

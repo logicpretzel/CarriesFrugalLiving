@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    <title>Carrie's Frugal Living @ViewBag.Title</title>
+
+
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+</head>
+<body class="reportpage ">
+    <div >
+        @RenderBody()
+    </div>
+
+        <hr />
+        <footer class="no-print">
+            <p>&copy; @DateTime.Now.Year - Dar Dunham </p>
+        </footer>
+
+
+
+
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>
+

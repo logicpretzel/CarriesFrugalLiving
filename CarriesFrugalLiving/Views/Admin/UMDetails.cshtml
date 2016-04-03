@@ -1,0 +1,58 @@
+﻿@model CarriesFrugalLiving.Models.UnitMeasure
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>UnitMeasure</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TypeCd)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TypeCd)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Abbrev)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Abbrev)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EquivalentValue)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EquivalentValue)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EquivalentMeasure)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EquivalentMeasure)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,160 @@
+﻿@model CarriesFrugalLiving.Models.Recipe
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2 class="alert alert-danger">Delete</h2>
+
+<h3 class="alert alert-danger" >Are you sure you want to delete this?</h3>
+<div>
+    <h4>Recipe</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShortDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShortDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IngredientString)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IngredientString)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Preparation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Preparation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CookingInstructions)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CookingInstructions)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CookingMethod)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CookingMethod)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ServingInstructions)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ServingInstructions)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NutritionInformation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NutritionInformation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NumberOfReviews)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumberOfReviews)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rating)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rating)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SubscriberID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SubscriberID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SubmittedInitials)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SubmittedInitials)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReleasedFlag)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReleasedFlag)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PictureURL)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PictureURL)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PictureCaption)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PictureCaption)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PicWidth)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PicWidth)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PicHeight)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PicHeight)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

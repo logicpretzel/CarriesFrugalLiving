@@ -1,0 +1,112 @@
+﻿@model CarriesFrugalLiving.Models.Recipe
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutReport.cshtml";
+}
+<h2 >@Html.DisplayFor(model => model.Name)</h2>
+<div>
+    <input id="Button1" type="button" value="Print" onclick="window.print();" class="no-print btn-primary" />
+    <hr />
+    <table class="width_100">
+        <tr>
+            <td>
+                <table class="width_100">
+                    <tr>
+                        <th class="lbl">
+                            @Html.DisplayNameFor(model => model.ShortDescription)
+                        </th>
+
+                        <td class="fld">
+                            @Html.DisplayFor(model => model.ShortDescription)
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="lbl">
+                            @Html.DisplayNameFor(model => model.IngredientString)
+                        </th>
+
+                        <td class="fld">
+
+                            @Html.Action("IngredientDetails", "Recipes", new { id = Model.ID })
+                            <br />
+
+                        </td>
+                    </tr>
+                </table>
+            </td>
+
+            <td align="right" valign="top">
+                <div class="rateit " data-rateit-value="@(ViewBag.AverageRating)" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+
+                @Html.Action("Picture", "Recipes", new { recipeId = Model.ID })
+            </td>
+        </tr>
+
+    </table>
+
+    <table class="width_100" >
+                <tr>
+                    <th class="lbl">
+                        @Html.DisplayNameFor(model => model.Preparation)
+                    </th>
+
+                    <td class="fld">
+                        @Html.DisplayFor(model => model.Preparation)
+                    </td>
+                </tr>
+                <tr>
+                    <th class="lbl">
+                        @Html.DisplayNameFor(model => model.CookingMethod)
+                    </th>
+
+                    <td class="fld"><br />
+                        @Html.DisplayFor(model => model.CookingMethod)
+                    </td>
+                </tr>
+                <tr>
+                    <th class="lbl">
+                        @Html.DisplayNameFor(model => model.CookingInstructions)
+                    </th>
+
+                    <td class="fld">
+                        @Html.DisplayFor(model => model.CookingInstructions)
+                    </td>
+                </tr>
+               
+                <tr>
+                    <th class="lbl">
+                        @Html.DisplayNameFor(model => model.ServingInstructions)
+                    </th>
+
+                    <td class="fld">
+                        @Html.DisplayFor(model => model.ServingInstructions)
+                    </td>
+                </tr>
+                <tr>
+                    <th class="lbl">
+                        @Html.DisplayNameFor(model => model.NutritionInformation)
+                    </th>
+
+                    <td class="fld">
+                        @Html.DisplayFor(model => model.NutritionInformation)
+                    </td>
+                </tr>
+
+
+
+            </table>
+
+       
+
+
+ 
+
+
+ </div>
+
+   
+
+ <br /><br /><br />
+<p class="no-print">
+    @Html.ActionLink("Back to List", "List")
+</p>

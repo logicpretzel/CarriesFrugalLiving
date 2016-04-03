@@ -1,0 +1,73 @@
+﻿@model IEnumerable<CarriesFrugalLiving.ViewModels.IngredientListView>
+
+@{
+    ViewBag.Title = "AddToCart";
+}
+
+<h2>Add Items To Shopping List</h2>
+@if (User.Identity.IsAuthenticated)
+{
+using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="well">
+  Choose List: @Html.DropDownList("CartID", (SelectList)ViewData["GroceryCarts"]) or @Html.ActionLink("Create New Shopping List", "CreateNewCart")
+  <span>
+      @Html.Hidden("recipeID", (object)ViewBag.RecipeID)
+  </span>
+</div>
+
+
+<table class="table">
+    <tr>
+        <th></th>
+        <th>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RecipeID)
+        </th>
+        
+    </tr>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td><input type="checkbox" name="selected" checked="checked" value="@item.ID" /></td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Quantity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+       
+
+    </tr>
+}
+
+</table>
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Add To List" class="btn btn-primary"  formaction="AddToCart" formmethod="post"/>
+        </div>
+    </div>
+    }
+
+
+}
+else
+{
+
+    <div class="alert alert-danger">
+        You must be logged in to use this function.
+    </div>
+}
+<div>
+    @Html.ActionLink("Back to List", "List")
+</div>

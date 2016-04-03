@@ -1,0 +1,113 @@
+﻿@model CarriesFrugalLiving.Models.Recipe
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutReport.cshtml";
+}
+
+<h2>@Html.DisplayFor(model => model.Name)</h2>
+
+<div>
+  
+    <hr />
+    <div class="row">
+        <div class="col-sm-6">
+            <dl class="dl-horizontal ">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ShortDescription)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ShortDescription)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Category)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Category)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.IngredientString)
+                </dt>
+
+                <dd>
+
+                    @Html.Action("IngredientDetails", "Recipes", new { id = Model.ID })
+                    <br />
+
+                </dd>
+            </dl>
+        </div>
+
+        <div class="rateit " data-rateit-value="@(ViewBag.AverageRating)" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+
+        @Html.Action("Picture", "Recipes", new { recipeId = Model.ID })
+        <div class="col-sm-11">
+            <dl class="dl-horizontal ">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Preparation)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Preparation)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.CookingInstructions)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.CookingInstructions)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.CookingMethod)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.CookingMethod)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ServingInstructions)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ServingInstructions)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.NutritionInformation)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.NutritionInformation)
+                </dd>
+
+
+
+
+            </dl>
+        </div>
+
+
+ 
+
+
+    </div>
+
+   
+</div>
+ <br /><br /><br />
+<p>
+    @Html.ActionLink("Back to List", "List")
+</p>
