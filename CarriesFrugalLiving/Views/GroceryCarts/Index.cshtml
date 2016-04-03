@@ -67,3 +67,7 @@ Page @(pagedlist.PageCount < pagedlist.PageNumber ? 0 : pagedlist.PageNumber) of
 @Html.PagedListPager(pagedlist, page => Url.Action("Index",
     new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
 
+@if (User.IsInRole("Admin"))
+{
+    @Html.ActionLink("[ Back To Admin Page ]", "Index", "Admin")
+}

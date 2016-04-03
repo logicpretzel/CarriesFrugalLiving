@@ -6,12 +6,25 @@
 @Html.ActionLink("Create New Role", "Create") | @Html.ActionLink("Manage User Role", "Manage")
 <hr />
 <div>
-    @foreach (var role in Model)
-    {
-        <p>
-            <strong>@role.Name | </strong>
-            <span onclick="return confirm('Are you sure to delete?')"><a href="/Roles/Delete?RoleName=@role.Name" class="delLink" style="color:red;">Delete</a></span> |
-            @Html.ActionLink("Edit", "Edit", new { roleName = @role.Name })
-        </p>
-    }
+    <table class="table col-sm-5">
+        @foreach (var role in Model)
+        {
+            <tr>
+                <td><strong>@role.Name | </strong></td>
+                <td>
+                 @if ((@role.Name.Trim().ToLower() == "admin") || (@role.Name.Trim().ToLower() == "contributer"))
+                 {
+                     <snan class="glyphicon-signal"></snan><span>Built-in. May not be changed.</span>
+                 }
+                 else
+                 {
+                    <span onclick="return confirm('Are you sure to delete?')"><a href="/Roles/Delete?RoleName=@role.Name" class="delLink" style="color:red;">Delete</a> | </span> 
+                    @Html.ActionLink("Edit", "Edit", new { roleName = @role.Name })
+                 }
+                </td>
+               
+            </tr>
+        }
+    </table>
 </div>
+@Html.ActionLink("[ Back To Admin Page ]", "Index", "Admin")

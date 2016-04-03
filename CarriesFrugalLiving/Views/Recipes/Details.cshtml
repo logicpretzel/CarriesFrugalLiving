@@ -14,8 +14,11 @@
             <i class="glyphicon glyphicon-print"></i>
             <span class="sr-only">Edit</span>
         </a>
+
+<!--   CHECK TO SEE IF AUTHORIZED -->
 @if (User.Identity.IsAuthenticated)
 {
+
     <a href="@Url.Action("AddReview", new { id = Model.ID })" title="Review This Recipe">
         <i class="glyphicon glyphicon-comment"></i>
         <span class="sr-only">Review This Recipe</span>
@@ -32,8 +35,10 @@
             <i class="glyphicon glyphicon-shopping-cart"></i>
             <span class="sr-only">Add to grocery list</span>
         </a>
-}
+} <!-- END  CHECK TO SEE IF AUTHORIZED -->
+
     </div>
+
     <hr />
     <div class="row">
         <div class="col-sm-8">

@@ -38,6 +38,19 @@ namespace CarriesFrugalLiving.Controllers
         // GET: /Roles/
         public ActionResult Index()
         {
+            if (User.Identity.IsAuthenticated == false)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            else
+            {
+                if (!User.IsInRole("Admin"))
+                {
+
+                    TempData["Msg"] = "You need to be and administrator to access this function.";
+                    return RedirectToAction("NeedLogon", "Home", null);
+                }
+            }
             var roles = context.Roles.ToList();
 
 
@@ -48,6 +61,19 @@ namespace CarriesFrugalLiving.Controllers
         // GET: /Roles/Create
         public ActionResult Create()
         {
+            if (User.Identity.IsAuthenticated == false)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            else
+            {
+                if (!User.IsInRole("Admin"))
+                {
+
+                    TempData["Msg"] = "You need to be and administrator to access this function.";
+                    return RedirectToAction("NeedLogon", "Home", null);
+                }
+            }
             return View();
         }
 
@@ -56,6 +82,19 @@ namespace CarriesFrugalLiving.Controllers
         [HttpPost]
         public ActionResult Create(FormCollection collection)
         {
+            if (User.Identity.IsAuthenticated == false)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            else
+            {
+                if (!User.IsInRole("Admin"))
+                {
+
+                    TempData["Msg"] = "You need to be and administrator to access this function.";
+                    return RedirectToAction("NeedLogon", "Home", null);
+                }
+            }
             try
             {
                 context.Roles.Add(new Microsoft.AspNet.Identity.EntityFramework.IdentityRole()
@@ -76,6 +115,19 @@ namespace CarriesFrugalLiving.Controllers
         // GET: /Roles/Edit/5
         public ActionResult Edit(string roleName)
         {
+            if (User.Identity.IsAuthenticated == false)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            else
+            {
+                if (!User.IsInRole("Admin"))
+                {
+
+                    TempData["Msg"] = "You need to be and administrator to access this function.";
+                    return RedirectToAction("NeedLogon", "Home", null);
+                }
+            }
             var thisRole = context.Roles.Where(r => r.Name.Equals(roleName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
 
             return View(thisRole);
@@ -87,6 +139,19 @@ namespace CarriesFrugalLiving.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Microsoft.AspNet.Identity.EntityFramework.IdentityRole role)
         {
+            if (User.Identity.IsAuthenticated == false)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            else
+            {
+                if (!User.IsInRole("Admin"))
+                {
+
+                    TempData["Msg"] = "You need to be and administrator to access this function.";
+                    return RedirectToAction("NeedLogon", "Home", null);
+                }
+            }
             try
             {
                 context.Entry(role).State = System.Data.Entity.EntityState.Modified;
@@ -104,6 +169,19 @@ namespace CarriesFrugalLiving.Controllers
         // GET: /Roles/Delete/5
         public ActionResult Delete(string RoleName)
         {
+            if (User.Identity.IsAuthenticated == false)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            else
+            {
+                if (!User.IsInRole("Admin"))
+                {
+
+                    TempData["Msg"] = "You need to be and administrator to access this function.";
+                    return RedirectToAction("NeedLogon", "Home", null);
+                }
+            }
             var thisRole = context.Roles.Where(r => r.Name.Equals(RoleName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
             context.Roles.Remove(thisRole);
             context.SaveChanges();
@@ -112,6 +190,19 @@ namespace CarriesFrugalLiving.Controllers
 
         public ActionResult Manage()
         {
+            if (User.Identity.IsAuthenticated == false)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            else
+            {
+                if (!User.IsInRole("Admin"))
+                {
+
+                    TempData["Msg"] = "You need to be and administrator to access this function.";
+                    return RedirectToAction("NeedLogon", "Home", null);
+                }
+            }
             var list = context.Roles.OrderBy(r => r.Name).ToList().Select(rr => new SelectListItem { Value = rr.Name.ToString(), Text = rr.Name }).ToList();
             ViewBag.Roles = list;
 
@@ -125,6 +216,19 @@ namespace CarriesFrugalLiving.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult RoleAddToUser(string UserName, string RoleName)
         {
+            if (User.Identity.IsAuthenticated == false)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            else
+            {
+                if (!User.IsInRole("Admin"))
+                {
+
+                    TempData["Msg"] = "You need to be and administrator to access this function.";
+                    return RedirectToAction("NeedLogon", "Home", null);
+                }
+            }
             ApplicationUser user = context.Users.Where(u => u.UserName.Equals(UserName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
 
             string mEmail = "dardunham@live.com";
@@ -183,6 +287,19 @@ namespace CarriesFrugalLiving.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult GetRoles(string UserName)
         {
+            if (User.Identity.IsAuthenticated == false)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            else
+            {
+                if (!User.IsInRole("Admin"))
+                {
+
+                    TempData["Msg"] = "You need to be and administrator to access this function.";
+                    return RedirectToAction("NeedLogon", "Home", null);
+                }
+            }
             if (!string.IsNullOrWhiteSpace(UserName))
             {
                 ApplicationUser user = context.Users.Where(u => u.UserName.Equals(UserName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
@@ -205,6 +322,19 @@ namespace CarriesFrugalLiving.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteRoleForUser(string UserName, string RoleName)
         {
+            if (User.Identity.IsAuthenticated == false)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            else
+            {
+                if (!User.IsInRole("Admin"))
+                {
+
+                    TempData["Msg"] = "You need to be and administrator to access this function.";
+                    return RedirectToAction("NeedLogon", "Home", null);
+                }
+            }
             var account = new AccountController();
             ApplicationUser user = context.Users.Where(u => u.UserName.Equals(UserName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
 
