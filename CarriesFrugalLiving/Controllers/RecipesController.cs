@@ -141,10 +141,39 @@ namespace CarriesFrugalLiving.Controllers
             ViewBag.TotalReviews = _db.GetReviewCount(id);
             ViewBag.AverageRating = _db.GetAverageRating(id).ToString("#,##0.0##");
 
-            return View(model);
+            return PartialView(model);
         }
 
-     
+        [HttpPost]
+        public ActionResult ReviewList(FormCollection fc)
+        {
+            int id = 0;
+            string sID = fc["sfRecipeID"] == null ? "" : fc["sfRecipeID"];
+            string sRating = fc["sfRating"] == null ? "" : fc["sfRating"];
+
+            Review.eReviewStarRating eRating = Review.eReviewStarRating.NONE;
+
+            if (!int.TryParse(sID, out id)){
+                id = 0;
+            }
+           
+            else {
+                if (!Enum.TryParse<Review.eReviewStarRating>(sRating, out eRating   )){
+                   eRating = Review.eReviewStarRating.NONE;
+                }
+            }
+
+            var model = _db.SelectReviews(id);
+
+            if (eRating != Review.eReviewStarRating.NONE) {
+                model = model.Where(s => s.Rating == eRating);
+            }
+           
+            ViewBag.TotalReviews = _db.GetReviewCount(id);
+            ViewBag.AverageRating = _db.GetAverageRating(id).ToString("#,##0.0##");
+
+            return PartialView(model);
+        }
 
         // GET: Recipes/Create
         public ActionResult Create()

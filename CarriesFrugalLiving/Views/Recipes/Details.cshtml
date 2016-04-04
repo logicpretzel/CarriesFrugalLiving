@@ -157,7 +157,23 @@
 
     }
 
-    @Html.Action("ReviewList", "Recipes", new { id = Model.ID })
+    <form id="searchform" name="searchform">
+
+        <select id="sfRating" name="sfRating" onchange="showlist()">
+            <option value="0">Show All</option>
+            <option value="1">One Star</option>
+            <option value="2">Two Stars</option>
+            <option value="3">Three Stars</option>
+            <option value="4">Four Stars</option>
+            <option value="5">Five Stars</option>
+        </select>
+        <input type="hidden" value="@Model.ID" id="sfRecipeID" name="sfRecipeID" />
+    </form>
+
+
+    <div id="reviewlist">
+        @Html.Action("ReviewList", "Recipes", new { id = Model.ID })
+    </div>
 </div>
 <div style="clear:both;">
 
@@ -194,3 +210,30 @@
 <p>
     @Html.ActionLink("Back to List", "List")
 </p>
+
+
+
+<script type="text/javascript">
+
+    function showlist() {
+        var url = "/Recipes/ReviewList/";
+
+        
+
+        $.post(url, $('#searchform').serialize())
+         .done(function (response) {
+             $("#reviewlist").html(response);
+             $('.collapse').each(function (i, item) {
+
+                 var $item = $(item);
+
+                 if ($item.hasClass('collapse') ) {
+                     $item.addClass('in');
+                 }
+
+             });
+
+         });
+    }
+        
+</script>

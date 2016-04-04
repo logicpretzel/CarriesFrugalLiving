@@ -1,14 +1,15 @@
 ﻿@model CarriesFrugalLiving.Models.AbuseReport
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Report A Review";
 }
 
-<h2>Edit</h2>
-
-
-@using (Html.BeginForm())
+<h2>@ViewBag.Title </h2>
+@if (User.Identity.IsAuthenticated)
 {
+
+  using (Html.BeginForm())
+  {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
@@ -44,8 +45,12 @@
             </div>
         </div>
     </div>
+  }
+} else {
+<div class="alert alert-danger">
+  You need to be logged in to report a review. If you do not have an account, please register.
+</div>
 }
-
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
