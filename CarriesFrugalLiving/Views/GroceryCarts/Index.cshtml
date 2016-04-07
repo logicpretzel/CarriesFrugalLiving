@@ -69,5 +69,16 @@ Page @(pagedlist.PageCount < pagedlist.PageNumber ? 0 : pagedlist.PageNumber) of
 
 @if (User.IsInRole("Admin"))
 {
-    @Html.ActionLink("[ Back To Admin Page ]", "Index", "Admin")
+
+
+    <div>
+      <br />
+        <a href="@Url.Action("Index", "Admin")" title="Administration Dashboard">
+            <i class="glyphicon glyphicon-dashboard"></i>
+            <span class="sr-only">Administration Dashboard</span>
+            &brvbar;Administration Dashboard
+        </a><br />
+
+    </div>
+
 }

@@ -1,0 +1,52 @@
+﻿@model IEnumerable<CarriesFrugalLiving.ViewModels.RolesForUser>
+@{
+
+    Layout = "";
+    string ck = "";
+    string disabled = "";
+}
+
+
+
+
+
+
+
+    
+
+<input type="hidden" value="@ViewBag.UserId" name="UserId" id="UserId" />
+<div class="col-sm-6">
+    <table class="table tablechart table-striped ">
+        <tr>
+            <th class="width_20">
+                @Html.DisplayNameFor(model => model.HasRole)
+            </th>
+            <th>Role Name</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="width_20">
+
+                    @{
+
+                        if (item.HasRole == true) { ck = "checked=\"checked\""; } else { ck = ""; }
+                        if (item.Disabled == "true") { disabled = "disabled=\"disabled\""; } else { disabled = ""; }
+
+                    }
+
+                    <input type="checkbox" value="@item.RoleName" name="cbRole" @ck @disabled />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RoleName)
+
+                </td>
+
+            </tr>
+                        }
+
+    </table>
+
+</div>
+<div style="clear:both"></div>

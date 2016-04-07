@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<CarriesFrugalLiving.Models.ApplicationUser>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "User Maintenance Listing";
 }
 
 <h2>Index</h2>
@@ -82,3 +82,17 @@
 }
 
 </table>
+
+<div>
+    <a href="@Url.Action("UserList", "Roles")" title="User Role Management Listing">
+        <i class="glyphicon  glyphicon-registration-mark"></i>
+        <span class="sr-only">Roles Management - User List</span>
+        &brvbar;Roles Management - User Listing
+    </a> <br />
+    <a href="@Url.Action("Index", "Admin")" title="Administration Dashboard">
+        <i class="glyphicon glyphicon-dashboard"></i>
+        <span class="sr-only">Administration Dashboard</span>
+        &brvbar;Administration Dashboard
+    </a><br />
+
+</div>

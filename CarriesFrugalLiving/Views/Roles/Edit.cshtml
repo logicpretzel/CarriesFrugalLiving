@@ -19,4 +19,16 @@
     <input type="submit" value="Save" />
 }
 
-@Html.ActionLink("[ Back To Admin Page ]", "Index", "Admin")
+<div>
+    <a href="@Url.Action("Index")" title="Cancel">
+        <i class="glyphicon glyphicon-backward"></i>
+        <span class="sr-only">Cancel - Back</span>
+        &brvbar;Cancel - Back
+    </a> <br />
+    <a href="@Url.Action("Index", "Admin")" title="Administration Dashboard">
+        <i class="glyphicon glyphicon-dashboard"></i>
+        <span class="sr-only">Administration Dashboard</span>
+        &brvbar;Administration Dashboard
+    </a><br />
+
+</div>

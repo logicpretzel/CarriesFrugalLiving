@@ -9,9 +9,10 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Data.SqlTypes;
 
+
 namespace CarriesFrugalLiving.DAL
 {
-    class RecipeRepository
+    partial class  RecipeRepository
     {
         //FrugalLivingDB _dc = new FrugalLivingDB();
         //public object Images { get; private set; }
@@ -19,6 +20,8 @@ namespace CarriesFrugalLiving.DAL
 
         ApplicationDbContext _dc = new ApplicationDbContext();
 
+
+        #region RECIPES
         public IEnumerable<Recipe> SelectRecipes(string kw = "") {
            
                 // IngredientListView ingredients = new IngredientListView();
@@ -48,6 +51,29 @@ namespace CarriesFrugalLiving.DAL
             return rc;
         }
 
+
+
+        public IEnumerable<Recipe> SelectRecipesByCategory(Recipe.eCategory category = Recipe.eCategory.NONE)
+        {
+
+            IQueryable<Recipe> _recipes = _dc.Recipes;
+            //if (category != Recipe.eCategory.NONE)
+            //    _recipes = _recipes.Where(s => s.Category == category).Take(100);
+
+            if (category != Recipe.eCategory.NONE)
+            {
+                _recipes = (from r in _recipes where r.Category == category select r).Take(100);
+                _recipes.OrderByDescending(o => o.Rating);
+            }
+            return _recipes.ToList();
+
+
+        }
+
+        #endregion
+
+
+        #region REVIEWS
         /*
      CREATE PROCEDURE spGetReviewsList 
 	 @UserCD varchar(100) = null
@@ -152,22 +178,6 @@ namespace CarriesFrugalLiving.DAL
             return rc;
         }
 
-        public IEnumerable<Recipe> SelectRecipesByCategory(Recipe.eCategory category = Recipe.eCategory.NONE)
-        {
-
-            IQueryable<Recipe> _recipes = _dc.Recipes;
-            //if (category != Recipe.eCategory.NONE)
-            //    _recipes = _recipes.Where(s => s.Category == category).Take(100);
-
-            if (category != Recipe.eCategory.NONE)
-            {
-                _recipes = (from r in _recipes where r.Category == category select r ).Take(100);
-                _recipes.OrderByDescending(o => o.Rating);
-            }
-            return _recipes.ToList();
-            
-
-        }
 
         /// <summary>
         /// GetReviewDisplayString
@@ -175,16 +185,17 @@ namespace CarriesFrugalLiving.DAL
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public string GetReviewDisplayString(int id) {
+        public string GetReviewDisplayString(int id)
+        {
             string rc = "";
-           
+
             // get count of reviews and average rating
             if (id >= 1)
             {
                 try
                 {
                     Recipe _recipe = (from i in _dc.Recipes
-                                      where i.ID == id 
+                                      where i.ID == id
                                       select i).FirstOrDefault();
 
                     if (_recipe != null)
@@ -196,15 +207,20 @@ namespace CarriesFrugalLiving.DAL
                         rc = String.Format("Total Reviews: {0}\n  Average Rating: {1:n2} stars", reviewCount, ar);
                     }
                 }
-                catch (Exception e) {
+                catch (Exception e)
+                {
                     rc = String.Format("error: {0}", e.Message.ToString());
                 }
             }
-            
-
 
             return rc;
-        }
+        } // END GetReviewDisplayString
+
+        #endregion
+
+
+
+        #region IMAGEPROCESSING
 
 
         public int GetImageIdFromRecipeID(int recipeID) {
@@ -247,7 +263,9 @@ namespace CarriesFrugalLiving.DAL
         }
 
 
-       
+        #endregion
+
+        #region INGREDIENTS
 
         public IEnumerable<Ingredient> GetIngredientList(int recipeID)
         {
@@ -275,6 +293,11 @@ namespace CarriesFrugalLiving.DAL
             return ingredients;
 
         }
+
+
+        #endregion
+
+        #region GROCERYCARTS
 
         public GroceryCart GetGroceryCart(int id)
         {
@@ -415,45 +438,11 @@ namespace CarriesFrugalLiving.DAL
 
 
         }
-
-        private string getRoleByName(string role) {
-            var idParam = new SqlParameter
-            {
-                ParameterName = "role",
-                Value = role
-            };
-            rolesvm rc = _dc.Database.SqlQuery<rolesvm>("Select id from AspNetRoles where Name = @role", idParam).SingleOrDefault<rolesvm>();
-            return rc.id.ToString();
-
-        }
-
-        public bool  AddRoleToUser(string UID, string role) {
-            bool rc = false;
-
-        //    if (role == "Admin") return false;  // can't use this method to create an admin role
+        #endregion
 
 
-            var idParam1 = new SqlParameter
-            {
-                ParameterName = "UID",
-                Value = UID
-            };
 
-            var idParam2 = new SqlParameter
-            {
-                ParameterName = "Role",
-                Value = getRoleByName( role )
-            };
-            try {
 
-                _dc.Database.ExecuteSqlCommand("Insert into AspNetUserRoles (UserId,RoleId) values (@UID, @Role)", idParam1, idParam2);
-                rc = true;
-            } catch
-            {
-                rc = false;
-            }
-            return rc;
-        }
 
         public Recipe GetRecipeByID(int id)
         {

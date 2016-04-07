@@ -82,7 +82,22 @@
             @Html.HiddenFor(model => model.UserName)
             @Html.HiddenFor(model => model.Email)
             <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            
         </div>
     }
+</div>
+
+
+<div>
+    <a href="@Url.Action("Index")" title="Cancel - Back to User Listing">
+        <i class="glyphicon  glyphicon-backward"></i>
+        <span class="sr-only">Back - User Listing</span>
+        &brvbar;Cancel
+    </a> <br />
+    <a href="@Url.Action("Index", "Admin")" title="Administration Dashboard">
+        <i class="glyphicon glyphicon-dashboard"></i>
+        <span class="sr-only">Administration Dashboard</span>
+        &brvbar;Administration Dashboard
+    </a><br />
+
 </div>

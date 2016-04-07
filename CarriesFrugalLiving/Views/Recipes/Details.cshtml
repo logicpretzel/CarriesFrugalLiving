@@ -217,13 +217,11 @@
 
     function showlist() {
         var url = "/Recipes/ReviewList/";
-
-        
-
         $.post(url, $('#searchform').serialize())
          .done(function (response) {
              $("#reviewlist").html(response);
-             $('.collapse').each(function (i, item) {
+
+             $('.collapse').each(function (i, item) {  
 
                  var $item = $(item);
 

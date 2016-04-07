@@ -192,6 +192,7 @@
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="DAL\RecipeRepository.cs" />
+    <Compile Include="DAL\UsersAndRolesRepository.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -284,7 +285,7 @@
     <Compile Include="ViewModels\IngredientListView.cs" />
     <Compile Include="ViewModels\RecipeGraphData.cs" />
     <Compile Include="ViewModels\ReviewListView.cs" />
-    <Compile Include="ViewModels\rolesvm.cs" />
+    <Compile Include="ViewModels\RolesViewModels.cs" />
     <Compile Include="ViewModels\SubscriberViews.cs" />
     <Compile Include="ViewModels\vCartItem.cs" />
   </ItemGroup>
@@ -549,6 +550,10 @@
     <Content Include="Views\AbuseReports\Index.cshtml" />
     <Content Include="Views\Shared\_LayoutAdminPage.cshtml" />
     <Content Include="Views\Admin\RecipeCountGraph.cshtml" />
+    <Content Include="Views\Roles\UserRolesView.cshtml" />
+    <Content Include="Views\Roles\RolesForUser.cshtml" />
+    <Content Include="Views\Roles\UserDetail.cshtml" />
+    <Content Include="Views\Roles\UserList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -73,6 +73,20 @@ namespace CarriesFrugalLiving.Controllers
             return View(roles);
         }
 
+        public ActionResult UserList() {
+            var model = _rp.GetUserList();
+            return View(model);
+         
+        }
+        public ActionResult UserDetail(string id)
+        {
+            if (IsAdmin() == false) { return NotAdmin(); }
+            ApplicationUser user = context.Users.Where(u => u.Id.Equals(id, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+
+            return View(user);
+
+        }
+
         //
         // GET: /Roles/Create
         public ActionResult Create()
@@ -158,7 +172,74 @@ namespace CarriesFrugalLiving.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult UserRolesView(string UserID = "") {
+            if (IsAdmin() == false) { return NotAdmin(); }
+            var model =  _rp.GetUserRolesList(UserID);
+            return View(model);
+        }
 
+        public ActionResult RolesForUser(string Id) {
+            if (IsAdmin() == false) { return NotAdmin(); }
+            string userManagerID = User.Identity.GetUserId().ToString();
+            var model = _rp.GetRolesForUser(Id, userManagerID);
+            ViewBag.UserID = Id;
+            ViewBag.Roles = "";
+            return PartialView(model);
+            
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult RolesForUser(FormCollection fc)
+        {
+            if (IsAdmin() == false) { return NotAdmin(); }
+            string userID = "";
+            string userManagerID = User.Identity.GetUserId();
+            string msg = "";
+
+            if (fc["UserId"] != null ) {
+                userID = fc["UserId"];
+            }
+
+            string s = "";
+            if ( fc["cbRole"] != null )
+            {
+                s = fc["cbRole"];
+            }
+
+            // remove all roles
+            bool rc = _rp.RemoveAllRolesFromUser(userID, userManagerID);
+            if ( rc == false ) { msg += "Error occured removing roles."; }
+            // re-add roles
+            if (s.Length > 0)
+            {
+                if (s.IndexOf(",") > 0)
+                {
+                    var sRoles = s.Split(',');
+                    foreach (var r in sRoles)
+                    {
+                        rc = _rp.AddRoleToUser(userID, r.ToString(), userManagerID);
+
+                    }
+
+                }
+                else {
+                    rc = _rp.AddRoleToUser(userID, s, userManagerID);
+                }
+                if (rc == false)
+                {
+                    if (rc == false) { msg += " Error occured adding roles."; }
+                }
+                else {
+                    msg = "Changes Successfully Saved.";
+                }
+            }
+            TempData["Sucess"] = rc;
+            TempData["msg"] = msg;
+            return RedirectToAction("UserDetail", new { id = userID });
+
+        }
 
         public ActionResult Manage()
         {
@@ -186,7 +267,7 @@ namespace CarriesFrugalLiving.Controllers
             string mEmail = "dardunham@live.com";
 
             var manager = System.Web.HttpContext.Current.Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
-
+            string CurrentUser = User.Identity.GetUserId();
             var adminUser = manager.FindByEmail(mEmail);
             if (adminUser == null)
             {
@@ -218,7 +299,7 @@ namespace CarriesFrugalLiving.Controllers
             }
 
             //manager.AddToRole(user.Id, RoleName);
-            if (_rp.AddRoleToUser(user.Id, RoleName))
+            if (_rp.AddRoleToUser(user.Id, RoleName,CurrentUser))
             {
                 ViewBag.ResultMessage = "Role created successfully !";
             }

@@ -56,4 +56,23 @@ if (ViewBag.RolesForThisUser != null)
 
 }
 
-@Html.ActionLink("[ Back To Admin Page ]", "Index", "Admin")
+
+
+<div>
+    <a href="@Url.Action("UserList")" title="User Listing">
+        <i class="glyphicon  glyphicon-registration-mark"></i>
+        <span class="sr-only">Roles Management - User List</span>
+        &brvbar;Roles Management - User Listing
+    </a> <br />
+    <a href="@Url.Action("Index", "Admin")" title="Administration Dashboard">
+        <i class="glyphicon glyphicon-dashboard"></i>
+        <span class="sr-only">Administration Dashboard</span>
+        &brvbar;Administration Dashboard
+    </a><br />
+    <a href="@Url.Action("Index", "Account")" title="User Management">
+        <i class="glyphicon  glyphicon-user"></i>
+        <span class="sr-only">User Management</span>
+        &brvbar;User Management
+    </a> <br />
+
+</div>

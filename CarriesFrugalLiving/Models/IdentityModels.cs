@@ -79,5 +79,8 @@ namespace CarriesFrugalLiving.Models
         public DbSet<AbuseReport> AbuseReports { get; set; }
         public DbSet<Category> Categories { get; set; }
 
+        // public System.Data.Entity.DbSet<CarriesFrugalLiving.ViewModels.UserList> UserLists { get; set; }
+
+        //   public System.Data.Entity.DbSet<CarriesFrugalLiving.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 }
