@@ -146,8 +146,7 @@
 </div>
 
 <div>
-    @if (User.Identity.IsAuthenticated)
-    {
+   
 
 
         <a href="@Url.Action("AddReview", new { id = Model.ID })" title="Review This Recipe" class="btn btn-primary">
@@ -155,7 +154,7 @@
         </a>
       
 
-    }
+    
 
     <form id="searchform" name="searchform">
 

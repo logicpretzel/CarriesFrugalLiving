@@ -184,6 +184,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AbuseReportsController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\FeaturesController.cs" />
     <Compile Include="Controllers\GroceryCartsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -260,10 +261,23 @@
     <Compile Include="Migrations\201604021558066_categories3.Designer.cs">
       <DependentUpon>201604021558066_categories3.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201604081649267_features.cs" />
+    <Compile Include="Migrations\201604081649267_features.Designer.cs">
+      <DependentUpon>201604081649267_features.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604081823227_features1.cs" />
+    <Compile Include="Migrations\201604081823227_features1.Designer.cs">
+      <DependentUpon>201604081823227_features1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604090044356_features2.cs" />
+    <Compile Include="Migrations\201604090044356_features2.Designer.cs">
+      <DependentUpon>201604090044356_features2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AbuseReport.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\Feature.cs" />
     <Compile Include="Models\GCartItem.cs" />
     <Compile Include="Models\GroceryCart.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -281,6 +295,7 @@
     <Compile Include="utils\EmailSender.cs" />
     <Compile Include="utils\StaticImageResizer.cs" />
     <Compile Include="ViewModels\ContactEmail.cs" />
+    <Compile Include="ViewModels\FeatureView.cs" />
     <Compile Include="ViewModels\ImagesView.cs" />
     <Compile Include="ViewModels\IngredientListView.cs" />
     <Compile Include="ViewModels\RecipeGraphData.cs" />
@@ -554,6 +569,13 @@
     <Content Include="Views\Roles\RolesForUser.cshtml" />
     <Content Include="Views\Roles\UserDetail.cshtml" />
     <Content Include="Views\Roles\UserList.cshtml" />
+    <Content Include="Views\Features\Create.cshtml" />
+    <Content Include="Views\Features\Delete.cshtml" />
+    <Content Include="Views\Features\Details.cshtml" />
+    <Content Include="Views\Features\Edit.cshtml" />
+    <Content Include="Views\Features\Index.cshtml" />
+    <Content Include="Views\Features\Featured.cshtml" />
+    <Content Include="Views\Features\Intro.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -618,6 +640,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201604021558066_categories3.resx">
       <DependentUpon>201604021558066_categories3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604081649267_features.resx">
+      <DependentUpon>201604081649267_features.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604081823227_features1.resx">
+      <DependentUpon>201604081823227_features1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604090044356_features2.resx">
+      <DependentUpon>201604090044356_features2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

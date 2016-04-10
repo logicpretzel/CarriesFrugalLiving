@@ -1,0 +1,25 @@
+﻿@model CarriesFrugalLiving.ViewModels.FeatureView
+@{ 
+
+    Layout = "";
+}
+
+
+    <div class="panel-heading panel-title "><h4 class="fonttitle">@(Model.Title)</h4></div>
+    <div class="panel-body fontsmall bgcolor-white_red ">
+        @Html.Raw(Model.FeatureText)
+    </div>
+
+    <div class="sigfont panel-footer">
+        @Html.DisplayFor(model => model.url)
+        @if (User.IsInRole("Admin"))
+        {
+            <a href="@Url.Action("Edit", "Features", new { id = Model.ID })" title="Edit Feature">
+                <i class="glyphicon glyphicon-pencil"></i>
+                <span class="sr-only">Edit Feature</span>
+            </a>
+          
+        }
+    
+    </div>
+

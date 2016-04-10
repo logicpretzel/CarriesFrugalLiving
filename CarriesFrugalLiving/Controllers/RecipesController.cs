@@ -31,6 +31,37 @@ namespace CarriesFrugalLiving.Controllers
         private RecipeRepository _db = new RecipeRepository();
         private ApplicationDbContext db = new ApplicationDbContext();
         // GET: Recipes
+
+       
+
+        //private bool IsContributor()
+        //{
+        //    if (User.Identity.IsAuthenticated == false)
+        //    {
+        //        return false;
+        //    }
+
+        //    if (User.IsInRole("Admin") || User.IsInRole("Contributor"))
+        //    {
+        //        return true;
+        //    }
+        //    return false;
+        //}
+
+        //private bool IsReviewer()
+        //{
+        //    if (User.Identity.IsAuthenticated == false)
+        //    {
+        //        return false;
+        //    }
+
+        //    if (User.IsInRole("Admin") || User.IsInRole("Reviewer") || User.IsInRole("Moderator"))
+        //    {
+        //        return true;
+        //    }
+        //    return false;
+        //}
+
         public ActionResult Index()
         {
             var model = db.Recipes.ToList();

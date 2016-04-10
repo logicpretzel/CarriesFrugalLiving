@@ -39,6 +39,16 @@ namespace CarriesFrugalLiving.DAL
             
         }
 
+
+        public Recipe GetRecipeByID(int id)
+        {
+            IQueryable<Recipe> recipe = _dc.Recipes;
+            if (id >= 1)
+                recipe = recipe.Where(s => s.ID == id);
+
+            return recipe.FirstOrDefault();
+        }
+
         public IEnumerable<RecipeGraphData> GetRecipeDemos()
         {
             IEnumerable<RecipeGraphData> rc = _dc.Database.SqlQuery<RecipeGraphData>("Select * from vwRecipeDemos");
@@ -442,16 +452,9 @@ namespace CarriesFrugalLiving.DAL
 
 
 
+        #region MEASURES
 
 
-        public Recipe GetRecipeByID(int id)
-        {
-            IQueryable<Recipe> recipe = _dc.Recipes;
-            if (id >= 1)
-                recipe = recipe.Where(s => s.ID == id);
-
-            return recipe.FirstOrDefault();
-        }
 
         public IList<UnitMeasure> UnitMeasureList()
         {
@@ -492,6 +495,64 @@ namespace CarriesFrugalLiving.DAL
 
             return rc;
         }
+
+        #endregion
+
+        #region FEATURES
+
+
+        public FeatureView GetFeatured(int id)
+        {
+
+            var rc = new FeatureView();
+
+            {
+                rc = _dc.Features.Where(x=>x.ID== id)
+                    .Select( t => new FeatureView
+                    {
+                      Title = t.Title,
+                      FeatureText = t.FeatureText,
+                      ID = t.ID
+                    }  ).FirstOrDefault();
+
+             };
+
+            return rc;
+
+        }
+
+
+        public FeatureView GetFeaturedByCategory(int category, DateTime? dt)
+        {
+            DateTime seedDt = DateTime.Today;
+
+            if (dt != null) { seedDt = (DateTime)dt; } 
+
+            var idParam = new SqlParameter
+            {
+                ParameterName = "Category",
+                Value = category
+            };
+
+            var idParam2 = new SqlParameter
+            {
+                ParameterName = "seeddt",
+                Value = seedDt != null ? seedDt : SqlDateTime.Null
+            };
+
+            FeatureView rc = _dc.Database.SqlQuery<FeatureView>(
+             "spGetFeaturesByCategory @Category, @seeddt ", idParam, idParam2
+             ).FirstOrDefault();
+
+            
+ 
+
+            return rc;
+
+        }
+
+
+        #endregion
 
     }
 

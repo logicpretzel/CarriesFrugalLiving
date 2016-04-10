@@ -58,6 +58,17 @@
  
     
 </div>
-<div>
+<div id="list">
     @Html.Action("IngredientList", "Recipes", new { id = Model.RecipeID })
 </div>
+
+<script type="text/javascript">
+
+        function d(id) {
+            var url = "/Recipes/RemoveIngredient/";
+            $.get(url, { id: id })
+             .done(function (response) {
+                 $("#list").html(response);
+             });
+        }
+</script>

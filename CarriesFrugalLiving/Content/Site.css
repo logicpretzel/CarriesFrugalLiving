@@ -32,6 +32,21 @@
 .bgcolor-red { background-color: #551111; color: white; }
 
 .bgcolor-maroon { background-color: #661111; color: white; }
+.bgcolor-white_red { background-color: #ffffff; color: maroon; }
+
+.nobackground {
+  background-color: none;
+}
+
+.aside1color {
+    color: maroon;
+    background-color: lightpink;
+    border-bottom-color: maroon;
+    border-right-color: #822030;
+    border-left-color:  #AC5865 ;
+    border-top-color:  #AC5865 ;
+   border-width: 1px;
+}
 
 body {
     padding-top: 50px;
@@ -174,23 +189,25 @@ div.tablechart {
  
 
 
-aside {
+aside.asideright {
   float: right;
-  width: 10% ;
+  max-width: 600px;
+  min-width: 50px;
   padding: 20px;
-  background-color: darkgoldenrod;
   border-radius: 10px;
-  font-size: medium;
+  font-size: small;
   margin-left: 0px;
-  margin-right: -100px;
-  text-align: center;
+  margin-right: -50px;
+  text-align: left;
+  border-style: solid;
+  display: inline;
 }
 
 .aside_hl {
     
     font-size: x-large;  
 }
- 
+
 
 
 
@@ -336,6 +353,11 @@ padding-bottom: 3px;
     font-size: small;
 }
 
+
+.fontmedium {
+    font-family: 'Maiandra GD','Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: medium;
+}
 .fontxsmall {
     font-family: 'Maiandra GD','Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: x-small;
@@ -391,3 +413,4 @@ dt {width:10%;}
 .floatright {
     float: right;
 }
+

@@ -1,7 +1,11 @@
 ﻿@model CarriesFrugalLiving.Models.Review
+@if (User.IsInRole("Admin") || User.IsInRole("Contributor") || User.IsInRole("Moderator") || User.IsInRole("Reviewer"))
 
-@using (Html.BeginForm())
 {
+
+  using (Html.BeginForm())
+  {
+
     @Html.AntiForgeryToken()
 
 
@@ -48,8 +52,23 @@
             </div>
         </div>
     </div>
-}
-
+  }
+} else
+{
+    if (User.Identity.IsAuthenticated == false)
+    {
+        <div class="well alert alert-danger">
+            You must be logged in in order to add a review. If you do not have an account please click &quot;Register&quot;. 
+        </div>
+    }
+    else {
+<div class="well alert alert-danger">
+    You must be a have reviewer permission in order to create a new review. It's easy to get!<br /><br/>
+    Simply click the &quot;Contact&quot; menu link at the top of the page and indicate that you would
+    like to be able to review recipes. 
+</div>
+        }
+    }
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>

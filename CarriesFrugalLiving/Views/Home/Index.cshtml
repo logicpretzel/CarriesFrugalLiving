@@ -5,53 +5,47 @@
 
 <h2 class="fonttitle color-primary-0  well-lg">@ViewBag.Title</h2>
 <div class="row">
-    <div class="col-sm-7 well">
-        <h2>Introduction</h2>
-        Living frugal doesn't have to sound like you're poor! For me, it's about living simply and being happy.
-        Less is more. We enjoy finding ways to be frugal. Our family believes that saving money, recycling and
-        using what we have is just being responsible to our budget and to our earth.
-
-        <br /><br />
-        It's a fun challenge to find ways to save money and to work towards our goals. As a family, we prefer to use our saved money
-        for fun things and to create a legacy for future generations.
-    </div>
-    <div class="col-sm-1 ">
-        &nbsp;
-    </div>
+    @Html.Action("Intro", "Features", new { id = 0 })
     <div class="col-sm-5 ">
         <img src="~/Images/kitchen2.png" class="flex right" alt="Jars of canned veggies" />
     </div>
-
-
-</div>
-
-<div class="row">
-    <div class="col-sm-12 ">
-        &nbsp;<br />
-    </div>
-</div>
-
-<div class="row">
+    
    
-    <div class="panel panel-warning col-sm-4">
-        <div class="panel-heading panel-title " ><h4 class="fonttitle">Heading 1</h4></div> 
-        <div class="panel-body ">
-            Lorem ipsum dolor sit amet, lectus felis neque aliquam, dolor curabitur pulvinar eros. Suspendisse in dolor at et urna orci. Ultricies justo wisi justo imperdiet ultrices auctor. Duis mauris velit, justo sed scelerisque hendrerit sed, ipsum viverra eu amet odio nec. Nunc tristique euismod lectus ut feugiat dictumst, malesuada sed dolor, erat laborum ut lectus nec adipiscing, vulputate est magna. Elit euismod cras vel sed donec, vestibulum nec aliquam nullam ipsum id lacus, id praesent nam sed quis sed facilisis. Vehicula porta, orci tempus arcu ligula in condimentum. Id ante tortor tincidunt arcu, nullam cum nec pede diam orci et, turpis consectetuer proin mi odio. Neque egestas praesent odio in, nec dis risus ipsum ante libero. Tellus sed incidunt nec augue hendrerit consequat, sed at vulputate vitae eros.
-        </div>
+
+</div>
+<div class="row">
+    <div class="panel col-sm-8">
+        @Html.Action("Featured", "Features", new { id = 2 })
     </div>
     
-    <div class="panel panel-warning col-sm-4">
-        <div class="panel-heading panel-title  "><h4 class="fonttitle">Heading 2</h4></div>
-        <div class="panel-body ">
-            Lorem ipsum dolor sit amet, lectus felis neque aliquam, dolor curabitur pulvinar eros. Suspendisse in dolor at et urna orci. Ultricies justo wisi justo imperdiet ultrices auctor. Duis mauris velit, justo sed scelerisque hendrerit sed, ipsum viverra eu amet odio nec. Nunc tristique euismod lectus ut feugiat dictumst, malesuada sed dolor, erat laborum ut lectus nec adipiscing, vulputate est magna. Elit euismod cras vel sed donec, vestibulum nec aliquam nullam ipsum id lacus, id praesent nam sed quis sed facilisis. Vehicula porta, orci tempus arcu ligula in condimentum. Id ante tortor tincidunt arcu, nullam cum nec pede diam orci et, turpis consectetuer proin mi odio. Neque egestas praesent odio in, nec dis risus ipsum ante libero. Tellus sed incidunt nec augue hendrerit consequat, sed at vulputate vitae eros.
-        </div>
-    </div>
+    <aside class="aside1color asideright col-sm-4">
+            <div class="panel panel-warning ">
+                @Html.Action("Featured", "Features", new { id = 1 })
+            </div>
+    </aside>
+</div>
 
-    <div class="panel panel-warning col-sm-4">
-        <div class="panel-heading panel-title  "><h4 class="fonttitle">Heading 3</h4></div>
-        <div class="panel-body ">
-            Lorem ipsum dolor sit amet, lectus felis neque aliquam, dolor curabitur pulvinar eros. Suspendisse in dolor at et urna orci. Ultricies justo wisi justo imperdiet ultrices auctor. Duis mauris velit, justo sed scelerisque hendrerit sed, ipsum viverra eu amet odio nec. Nunc tristique euismod lectus ut feugiat dictumst, malesuada sed dolor, erat laborum ut lectus nec adipiscing, vulputate est magna. Elit euismod cras vel sed donec, vestibulum nec aliquam nullam ipsum id lacus, id praesent nam sed quis sed facilisis. Vehicula porta, orci tempus arcu ligula in condimentum. Id ante tortor tincidunt arcu, nullam cum nec pede diam orci et, turpis consectetuer proin mi odio. Neque egestas praesent odio in, nec dis risus ipsum ante libero. Tellus sed incidunt nec augue hendrerit consequat, sed at vulputate vitae eros.
-        </div>
+<div class="row">
+    <div class="panel  col-sm-4">
+        @Html.Action("Featured", "Features", new { id = 3 })
+    </div>
+    <div class="panel  col-sm-8">
+        @Html.Action("Featured", "Features", new { id = 4 })
+    </div>
+    
+  
+
+   
+
+</div>
+
+<div class="row">
+
+    <div class="panel col-sm-6">
+        @Html.Action("Featured", "Features", new { id = 5 })
+    </div>
+    <div class="panel  col-sm-6">
+        @Html.Action("Featured", "Features", new { id = 6 })
     </div>
 
 </div>
