@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Data.SqlTypes;
-
+using System.Collections;
 
 namespace CarriesFrugalLiving.DAL
 {
@@ -19,6 +19,23 @@ namespace CarriesFrugalLiving.DAL
        
 
         ApplicationDbContext _dc = new ApplicationDbContext();
+
+
+        /// <summary>
+        /// GetPickList
+        /// The picklists database table is used to store data used in various dropdown lists
+        /// The catid is used to determine the type of picklist. Catid 0 is the master index of picklist types, and
+        /// is used to document the piclists only.
+        /// </summary>
+        /// <param name="categoryID"></param>
+        /// <returns></returns>
+        internal IEnumerable GetPickList(int categoryID)
+        {
+            IQueryable<PickList> _pl = _dc.PickLists;
+            _pl = (from r in _pl where r.CatID == categoryID select r).Where(r => r.Void == false);
+            return _pl.ToList();
+        }
+
 
 
         #region RECIPES

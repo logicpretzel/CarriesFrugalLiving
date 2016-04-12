@@ -17,46 +17,22 @@ namespace CarriesFrugalLiving.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         private RecipeRepository _db = new RecipeRepository();
-        private ActionResult NotAdmin()
-        {
-            if (!User.Identity.IsAuthenticated)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-            else
-            {
-                TempData["Msg"] = "You need to be and administrator to access this function.";
-                return RedirectToAction("NeedLogon", "Home", null);
-
-            }
-        }
-
-        private bool IsAdmin()
-        {
-            if (User.Identity.IsAuthenticated == false)
-            {
-                return false;
-            }
-
-            if (User.IsInRole("Admin"))
-            {
-                return true;
-            }
-            return false;
-        }
+     
 
 
         // GET: Features
+        [Authorize(Roles ="Admin")]
         public async Task<ActionResult> Index()
         {
-            if (IsAdmin() == false) { return NotAdmin(); }
+          
             return View(await db.Features.ToListAsync());
         }
 
         // GET: Features/Details/5
+        [Authorize(Roles ="Admin")]
         public async Task<ActionResult> Details(int? id)
         {
-            if (IsAdmin() == false) { return NotAdmin(); }
+            
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -107,9 +83,12 @@ namespace CarriesFrugalLiving.Controllers
 
 
         // GET: Features/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
-            if (IsAdmin() == false) { return NotAdmin(); }
+            int cat = 1; // See GetPickList Documentation
+            ViewBag.ddCat = new SelectList(_db.GetPickList(cat), "KeyID", "Value");
+
             return View();
         }
 
@@ -118,24 +97,26 @@ namespace CarriesFrugalLiving.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Create([Bind(Include = "ID,Title,FeatureText,StartDate,EndDate,Category,url")] Feature feature)
         {
-            if (IsAdmin() == false) { return NotAdmin(); }
+            
             if (ModelState.IsValid)
             {
                 db.Features.Add(feature);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-
+            int cat = 1; // See GetPickList Documentation
+            ViewBag.ddCat = new SelectList(_db.GetPickList(cat), "KeyID", "Value");
             return View(feature);
         }
 
         // GET: Features/Edit/5
-
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Edit(int? id)
         {
-            if (IsAdmin() == false) { return NotAdmin(); }
+            
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -145,6 +126,8 @@ namespace CarriesFrugalLiving.Controllers
             {
                 return HttpNotFound();
             }
+            int cat = 1; // See GetPickList Documentation
+            ViewBag.ddCat = new SelectList(_db.GetPickList(cat), "KeyID", "Value");
             return View(feature);
         }
 
@@ -153,22 +136,26 @@ namespace CarriesFrugalLiving.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Edit([Bind(Include = "ID,Title,FeatureText,StartDate,EndDate,Category,url")] Feature feature)
         {
-            if (IsAdmin() == false) { return NotAdmin(); }
+           
             if (ModelState.IsValid)
             {
                 db.Entry(feature).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
+            int cat = 1; // See GetPickList Documentation
+            ViewBag.ddCat = new SelectList(_db.GetPickList(cat), "KeyID", "Value");
             return View(feature);
         }
 
         // GET: Features/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Delete(int? id)
         {
-            if (IsAdmin() == false) { return NotAdmin(); }
+            
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -184,9 +171,10 @@ namespace CarriesFrugalLiving.Controllers
         // POST: Features/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            if (IsAdmin() == false) { return NotAdmin(); }
+            
             Feature feature = await db.Features.FindAsync(id);
             db.Features.Remove(feature);
             await db.SaveChangesAsync();

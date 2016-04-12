@@ -79,7 +79,7 @@ namespace CarriesFrugalLiving.Models
         public DbSet<AbuseReport> AbuseReports { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Feature> Features { get; set; }
-
- //       public System.Data.Entity.DbSet<CarriesFrugalLiving.ViewModels.FeatureView> FeatureViews { get; set; }
+        public DbSet<PickList> PickLists { get; set; }
+        //       public System.Data.Entity.DbSet<CarriesFrugalLiving.ViewModels.FeatureView> FeatureViews { get; set; }
     }
 }

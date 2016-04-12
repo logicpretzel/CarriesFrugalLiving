@@ -188,6 +188,7 @@
     <Compile Include="Controllers\GroceryCartsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PickListsController.cs" />
     <Compile Include="Controllers\RecipesController.cs" />
     <Compile Include="Controllers\ReviewsController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
@@ -273,6 +274,14 @@
     <Compile Include="Migrations\201604090044356_features2.Designer.cs">
       <DependentUpon>201604090044356_features2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201604121745393_picklist.cs" />
+    <Compile Include="Migrations\201604121745393_picklist.Designer.cs">
+      <DependentUpon>201604121745393_picklist.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604121748456_picklist2.cs" />
+    <Compile Include="Migrations\201604121748456_picklist2.Designer.cs">
+      <DependentUpon>201604121748456_picklist2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AbuseReport.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -287,6 +296,7 @@
     <Compile Include="Models\MealPlan.cs" />
     <Compile Include="Models\mFraction.cs" />
     <Compile Include="Models\MPlanItem.cs" />
+    <Compile Include="Models\PickList.cs" />
     <Compile Include="Models\Recipe.cs" />
     <Compile Include="Models\Review.cs" />
     <Compile Include="Models\UnitMeasure.cs" />
@@ -576,6 +586,11 @@
     <Content Include="Views\Features\Index.cshtml" />
     <Content Include="Views\Features\Featured.cshtml" />
     <Content Include="Views\Features\Intro.cshtml" />
+    <Content Include="Views\PickLists\Create.cshtml" />
+    <Content Include="Views\PickLists\Delete.cshtml" />
+    <Content Include="Views\PickLists\Details.cshtml" />
+    <Content Include="Views\PickLists\Edit.cshtml" />
+    <Content Include="Views\PickLists\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -649,6 +664,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201604090044356_features2.resx">
       <DependentUpon>201604090044356_features2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604121745393_picklist.resx">
+      <DependentUpon>201604121745393_picklist.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604121748456_picklist2.resx">
+      <DependentUpon>201604121748456_picklist2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
