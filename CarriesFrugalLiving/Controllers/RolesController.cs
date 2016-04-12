@@ -38,6 +38,7 @@ namespace CarriesFrugalLiving.Controllers
             }
             else
             {
+                //Need to use tempdata since ViewBag doesn't survive redirects.
                 TempData["Msg"] = "You need to be and administrator to access this function.";
                 return RedirectToAction("NeedLogon", "Home", null);
 
@@ -211,6 +212,7 @@ namespace CarriesFrugalLiving.Controllers
             // remove all roles
             bool rc = _rp.RemoveAllRolesFromUser(userID, userManagerID);
             if ( rc == false ) { msg += "Error occured removing roles."; }
+
             // re-add roles
             if (s.Length > 0)
             {

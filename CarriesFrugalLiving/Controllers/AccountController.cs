@@ -19,7 +19,7 @@ namespace CarriesFrugalLiving.Controllers
     /// 
     /// 
     /// 
-    /// Revised: 4/3/16
+    /// Revised: 4/11/16 - Add Default "User" Role on register
     /// </summary>
     [Authorize]
     public class AccountController : Controller
@@ -152,12 +152,14 @@ namespace CarriesFrugalLiving.Controllers
         public ActionResult Index() {
             ApplicationDbContext db = new ApplicationDbContext();
             var model = UserManager.Users.ToList();
-            //ApplicationUser usr = db.Users.Find(userID);
-            //IEnumerable<ApplicationUsers> model = db.Users.ToList();
+
             return View(model);
         }
 
 
+
+
+        #region PROFILE
 
         public ActionResult UserProfile() {
 
@@ -227,8 +229,10 @@ namespace CarriesFrugalLiving.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
+        #endregion
 
 
+        #region EDIT
 
         public ActionResult Edit(string Id) {
             var model =  UserManager.FindById(Id);
@@ -315,11 +319,19 @@ namespace CarriesFrugalLiving.Controllers
             return View(model);
         }
 
+
+        #endregion
+
+        #region DELETEUSER
+
         public ActionResult Delete(string id)
         {
             var user = UserManager.FindById(id);
             return View(user);
         }
+
+
+
         // POST: /Account/Register
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -365,6 +377,10 @@ namespace CarriesFrugalLiving.Controllers
         }
 
 
+        #endregion
+
+
+        #region REGISTER
         //
         // GET: /Account/Register
         [AllowAnonymous]
@@ -373,7 +389,13 @@ namespace CarriesFrugalLiving.Controllers
             return View();
         }
 
-         // POST: /Account/Register
+        /// <summary>
+        /// Register - Post
+        /// Revisions: 
+        ///     4/11/16 - Added code to add the user role to a new user as the default role
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -387,11 +409,17 @@ namespace CarriesFrugalLiving.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    //
+
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+
+                    // Add with initial role of user
+                    // 4/11/16
+                    UserManager.AddToRole(user.Id, "User");
+
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
-                     string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                      var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                      var es = new EmailService();
                      var msg = new IdentityMessage();
@@ -432,7 +460,7 @@ namespace CarriesFrugalLiving.Controllers
         //        if (result.Succeeded)
         //        {
         //            await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+
         //            // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
         //            // Send an email with this link
         //            // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -448,6 +476,10 @@ namespace CarriesFrugalLiving.Controllers
         //    return View(model);
         //}
 
+
+        #endregion
+
+        #region PASSWORDS
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
@@ -568,7 +600,9 @@ namespace CarriesFrugalLiving.Controllers
         {
             return View();
         }
+        #endregion
 
+        #region EXTERNAL
         //
         // POST: /Account/ExternalLogin
         [HttpPost]
@@ -683,6 +717,19 @@ namespace CarriesFrugalLiving.Controllers
             return View(model);
         }
 
+
+
+        //
+        // GET: /Account/ExternalLoginFailure
+        [AllowAnonymous]
+        public ActionResult ExternalLoginFailure()
+        {
+            return View();
+        }
+
+        #endregion
+
+        #region LOGOFF
         //
         // POST: /Account/LogOff
         [HttpPost]
@@ -692,14 +739,7 @@ namespace CarriesFrugalLiving.Controllers
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Index", "Home");
         }
-
-        //
-        // GET: /Account/ExternalLoginFailure
-        [AllowAnonymous]
-        public ActionResult ExternalLoginFailure()
-        {
-            return View();
-        }
+        #endregion
 
         protected override void Dispose(bool disposing)
         {

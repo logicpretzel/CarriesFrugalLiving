@@ -24,15 +24,17 @@
                     <th class="fontxsmall text-center">Unique Users</th>
                     <th class="fontxsmall text-center">Reviews</th>
                 </tr>
+
                 @foreach (var item in Model)
                 {
-                  <tr>
-                     <td>@Html.DisplayFor(modelItem => item.CategoryNm)</td>
-                     <td class="fontsmall text-center">@Html.DisplayFor(modelItem => item.RecipeCount)</td>
-                     <td class="fontsmall text-center">@Html.DisplayFor(modelItem => item.UserCount)</td>
-                      <td class="fontsmall text-center">@Html.DisplayFor(modelItem => item.ReviewCount)</td>
-                  </tr>
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.CategoryNm)</td>
+                        <td class="fontsmall text-center">@Html.DisplayFor(modelItem => item.RecipeCount)</td>
+                        <td class="fontsmall text-center">@Html.DisplayFor(modelItem => item.UserCount)</td>
+                        <td class="fontsmall text-center">@Html.DisplayFor(modelItem => item.ReviewCount)</td>
+                    </tr>
                 }
+                
             </table>
         </div>
 

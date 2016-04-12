@@ -894,4 +894,8 @@ Add report this link to disable content
         //  console.log(data)
         //});
 //http://stackoverflow.com/questions/4907422/asp-net-mvc-get-current-host
+//
+//User Security Stamp
+//http://stackoverflow.com/questions/19487322/what-is-asp-net-identitys-iusersecuritystampstoretuser-interface
+
 */

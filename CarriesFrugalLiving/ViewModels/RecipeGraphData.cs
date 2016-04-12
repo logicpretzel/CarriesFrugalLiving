@@ -11,7 +11,15 @@ namespace CarriesFrugalLiving.ViewModels
         public string CategoryNm { get; set; }
         public int Category { get; set; }
 
-        public int RecipeCount { get; set; }
+        
+        private int recipeCount;
+
+        public int RecipeCount
+        {
+            get { return recipeCount; }
+            set { recipeCount = value; }
+        }
+
         public int UserCount { get; set; }
         public int ReviewCount { get; set; }
        

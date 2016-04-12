@@ -22,7 +22,7 @@
             <tr>
                 <td><strong>@role.Name | </strong></td>
                 <td>
-                 @if ((@role.Name.Trim().ToLower() == "admin") || (@role.Name.Trim().ToLower() == "contributer") || (@role.Name.Trim().ToLower() == "moderator") || (@role.Name.Trim().ToLower() == "reviewer"))
+                 @if ((@role.Name.Trim().ToLower() == "admin") || (@role.Name.Trim().ToLower() == "contributer") || (@role.Name.Trim().ToLower() == "moderator") || (@role.Name.Trim().ToLower() == "reviewer") || (@role.Name.Trim().ToLower() == "user"))
                  {
                      <snan class="glyphicon-signal"></snan><span>Built-in. May not be changed.</span>
                  }
