@@ -11,11 +11,12 @@
 </p>
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.KeyID)
-        </th>
+        
         <th>
             @Html.DisplayNameFor(model => model.CatID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.KeyID)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Value)
@@ -28,11 +29,12 @@
 
 @foreach (var item in Model) {
     <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.KeyID)
-        </td>
+       
         <td>
             @Html.DisplayFor(modelItem => item.CatID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.KeyID)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Value)
@@ -49,3 +51,14 @@
 }
 
 </table>
+
+<div>
+   
+    <a href="@Url.Action("Index", "Admin")" title="Administration Dashboard">
+        <i class="glyphicon glyphicon-dashboard"></i>
+        <span class="sr-only">Administration Dashboard</span>
+        &brvbar;Administration Dashboard
+    </a><br />
+    
+
+</div>

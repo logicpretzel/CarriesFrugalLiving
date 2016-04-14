@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using CarriesFrugalLiving.Models;
 using System.Collections;
+using CarriesFrugalLiving.DAL;
 
 namespace CarriesFrugalLiving.Controllers
 {
@@ -149,6 +150,8 @@ namespace CarriesFrugalLiving.Controllers
             }
         }
 
+
+        [Authorize(Roles = "Admin")]
         public ActionResult Index() {
             ApplicationDbContext db = new ApplicationDbContext();
             var model = UserManager.Users.ToList();
@@ -157,7 +160,65 @@ namespace CarriesFrugalLiving.Controllers
         }
 
 
+        #region CREATE
 
+
+        //
+        // GET: /Account/Create
+        [Authorize(Roles = "Admin")]
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// Register - Post
+        /// Revisions: 
+        ///     4/11/16 - Added code to add the user role to a new user as the default role
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Create([Bind(Include = "Email, Password, FirstName, LastName, Address, City, State, Zip")]RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    Address = model.Address,
+                    City = model.City,
+                    State = model.State,
+                    Zip = model.Zip
+                };
+                var result = await UserManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    //
+
+                    //  await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                    // Add with initial role of user
+                    // 4/11/16
+                    UserManager.AddToRole(user.Id, "User");
+
+                                   
+
+                    return RedirectToAction("Index", "Home");
+                }
+                AddErrors(result);
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
+
+        #endregion
 
         #region PROFILE
 
@@ -233,37 +294,43 @@ namespace CarriesFrugalLiving.Controllers
 
 
         #region EDIT
-
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(string Id) {
-            var model =  UserManager.FindById(Id);
-            if (model == null )
+            var user =  UserManager.FindById(Id);
+            if (user == null )
             {
                 // Don't reveal that the user does not exist or is not confirmed
                 return View("ForgotPasswordConfirmation");
             }
+            EditUserViewModel model = new EditUserViewModel();
+            model.Id            = user.Id;
+            model.Address       = user.Address;
+            model.City          = user.City;
+            model.Email         = user.Email;
+            model.FirstName     = user.FirstName;
+            model.LastName      = user.LastName;
+            model.State         = user.State;
+            model.UserName      = user.UserName;
+            model.Zip           = user.Zip;
+            model.PhoneNumber   = user.PhoneNumber;
+            model.EmailConfirmed = user.EmailConfirmed;
             return View(model);
 
         }
 
+        public ActionResult ErrorPage(string msg) {
+            ViewBag.Msg = msg;
+
+            return View();
+        }
+
         // POST: /Account/Register
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "UserName, Email, FirstName, LastName, Address, City, State, Zip, EmailConfirmed,PhoneNumber,PhoneNumberConfirmed, LockoutEnabled, AccessFailedCount")]ApplicationUser model)
+        public async Task<ActionResult> Edit([Bind(Include = "UserName, Email, FirstName, LastName, Address, City, State, Zip, EmailConfirmed,PhoneNumber,PhoneNumberConfirmed, Password, LockoutEnabled, AccessFailedCount")]EditUserViewModel model)
         {
-            //if (ModelState.IsValid)
-            //{
-            //    //var user = new ApplicationUser
-            //{
-            //    UserName = model.Email,
-            //    Email = model.Email,
-            //    FirstName = model.FirstName,
-            //    LastName = model.LastName,
-            //    Address = model.Address,
-            //    City = model.City,
-            //    State = model.State,
-            //    Zip = model.Zip
-            //};
+       
 
             if (ModelState.IsValid)
             {
@@ -283,32 +350,17 @@ namespace CarriesFrugalLiving.Controllers
                     user.City = model.City;
                     user.State = model.State;
                     user.Zip = model.Zip;
-                    user.EmailConfirmed = model.EmailConfirmed;
                     user.PhoneNumber = model.PhoneNumber;
-                    user.PhoneNumberConfirmed = model.PhoneNumberConfirmed;
-                    user.LockoutEnabled = model.LockoutEnabled;
-                    user.AccessFailedCount = model.AccessFailedCount;
-
+                    user.EmailConfirmed = model.EmailConfirmed;
+                    
                     IdentityResult result = await UserManager.UpdateAsync(user);
 
                     if (result.Succeeded == true ) {
-                        
-                        
-                        utils.EmailSender eSender = new utils.EmailSender();
 
-                        string sBody = eSender.GetNotifyMsgBody("Your account has changed for Carries Frugal Living website (CarriesFrugalLiving.com)"
-                            , "If you received this message unexpectedly please contact us. For security reasons we will not provide a link, but simply access the main site and click Contact Us. Thank you.");
-                        var e = eSender.Send(user.Email, "Account changed at CarriesFrugalLiving.com", sBody, true, null);
-                        eSender = null;
-                        if (e.Length > 0 )
-                        {
-                            ViewBag.ErrMsg = e; // to show error
-                        } else
-                        {
-                            return RedirectToAction("Index");
-                        }
+
                        
-                        
+
+                        return RedirectToAction("Index");
 
                     }
                   
@@ -319,6 +371,68 @@ namespace CarriesFrugalLiving.Controllers
             return View(model);
         }
 
+
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> ChangePassword(string Id)
+        {
+            ApplicationUser user = await UserManager.FindByIdAsync(Id);
+            if (user == null)
+            {
+                return ErrorPage("Invalid Operation trying to set password.");
+
+            }
+            SetUserPasswordViewModel model = new SetUserPasswordViewModel();
+            model.Id = user.Id;
+            model.FirstName = user.FirstName;
+            model.LastName = user.LastName;
+            model.Email = user.Email;
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ChangePassword(SetUserPasswordViewModel model)
+        {
+            ApplicationUser user = await UserManager.FindByIdAsync(model.Id);
+            if (user == null)
+            {
+                return ErrorPage("Invalid Operation tryning to set password.");
+
+            }
+            user.PasswordHash = UserManager.PasswordHasher.HashPassword(model.Password);
+            IdentityResult result = await UserManager.UpdateAsync(user);
+            if (!result.Succeeded)
+            {
+
+                AddErrors(result);
+                string msg = "";
+                foreach (var e in result.Errors)
+                {
+                    msg += e.ToString();
+                }
+                return ErrorPage(msg);
+            }
+            else {
+                //TODO: Notify User their email has changed - I want this to be optional
+                //utils.EmailSender eSender = new utils.EmailSender();
+
+                //string sBody = eSender.GetNotifyMsgBody("Your account has changed for Carries Frugal Living website (CarriesFrugalLiving.com)"
+                //    , "If you received this message unexpectedly please contact us. For security reasons we will not provide a link, but simply access the main site and click Contact Us. Thank you.");
+                //var e = eSender.Send(user.Email, "Account changed at CarriesFrugalLiving.com", sBody, true, null);
+                //eSender = null;
+                //if (e.Length > 0 )
+                //{
+                //    ViewBag.ErrMsg = e; // to show error
+                //} else
+                //{
+                //    return RedirectToAction("Index");
+                //}
+            }
+
+            return RedirectToAction("Index");
+        }
 
         #endregion
 
@@ -401,6 +515,7 @@ namespace CarriesFrugalLiving.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register([Bind(Include="Email, Password, FirstName, LastName, Address, City, State, Zip")]RegisterViewModel model)
         {
+            RecipeRepository mydb = new RecipeRepository();
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email,
@@ -415,8 +530,9 @@ namespace CarriesFrugalLiving.Controllers
 
                     // Add with initial role of user
                     // 4/11/16
-                    UserManager.AddToRole(user.Id, "User");
-
+                    // UserManager.AddToRole(user.Id, "User");
+                    mydb.AddRoleToUser(user.Id, "User", mydb.GetUserIDByUserName("dardunham@live.com"));
+ 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -444,37 +560,7 @@ namespace CarriesFrugalLiving.Controllers
         }
 
 
-        ////
-        //// POST: /Account/Register
-        //[HttpPost]
-        //[AllowAnonymous]
-        //[ValidateAntiForgeryToken]
-        //public async Task<ActionResult> Register([Bind(Include="Email, Password, FirstName, LastName, Address, City, State, Zip")]RegisterViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var user = new ApplicationUser { UserName = model.Email, Email = model.Email,
-        //                FirstName =model.FirstName, LastName=model.LastName, Address=model.Address,
-        //                City = model.City, State=model.State, Zip=model.Zip };
-        //        var result = await UserManager.CreateAsync(user, model.Password);
-        //        if (result.Succeeded)
-        //        {
-        //            await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-
-        //            // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-        //            // Send an email with this link
-        //            // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-        //            // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-        //            // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-        //            return RedirectToAction("Index", "Home");
-        //        }
-        //        AddErrors(result);
-        //    }
-
-        //    // If we got this far, something failed, redisplay form
-        //    return View(model);
-        //}
+        
 
 
         #endregion

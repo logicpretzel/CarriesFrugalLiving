@@ -8,18 +8,20 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CarriesFrugalLiving.Models;
+using CarriesFrugalLiving.DAL;
 
 namespace CarriesFrugalLiving.Controllers
 {
     public class PickListsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private RecipeRepository _db = new RecipeRepository();
 
         // GET: PickLists
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Index()
         {
-            return View(await db.PickLists.ToListAsync());
+            return View(await db.PickLists.OrderBy(r=>r.CatID).ThenBy(r=>r.KeyID).ToListAsync());
         }
 
         // GET: PickLists/Details/5
@@ -42,6 +44,8 @@ namespace CarriesFrugalLiving.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
+            int cat = 0; // See GetPickList Documentation
+            ViewBag.ddCat = new SelectList(_db.GetPickList(cat), "KeyID", "Value");
             return View();
         }
 
@@ -59,7 +63,8 @@ namespace CarriesFrugalLiving.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-
+            int cat = 0; // See GetPickList Documentation
+            ViewBag.ddCat = new SelectList(_db.GetPickList(cat), "KeyID", "Value");
             return View(pickList);
         }
 
@@ -76,6 +81,8 @@ namespace CarriesFrugalLiving.Controllers
             {
                 return HttpNotFound();
             }
+            int cat = 0; // See GetPickList Documentation
+            ViewBag.ddCat = new SelectList(_db.GetPickList(cat), "KeyID", "Value");
             return View(pickList);
         }
 
@@ -93,6 +100,8 @@ namespace CarriesFrugalLiving.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
+            int cat = 0; // See GetPickList Documentation
+            ViewBag.ddCat = new SelectList(_db.GetPickList(cat), "KeyID", "Value");
             return View(pickList);
         }
 

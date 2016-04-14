@@ -32,7 +32,7 @@ namespace CarriesFrugalLiving.DAL
         internal IEnumerable GetPickList(int categoryID)
         {
             IQueryable<PickList> _pl = _dc.PickLists;
-            _pl = (from r in _pl where r.CatID == categoryID select r).Where(r => r.Void == false);
+            _pl = (from r in _pl where r.CatID == categoryID select r).Where(r => r.Void == false).OrderBy(r => r.CatID).ThenBy(r=>r.KeyID);
             return _pl.ToList();
         }
 

@@ -80,6 +80,11 @@ namespace CarriesFrugalLiving.Models
         public DbSet<Category> Categories { get; set; }
         public DbSet<Feature> Features { get; set; }
         public DbSet<PickList> PickLists { get; set; }
-        //       public System.Data.Entity.DbSet<CarriesFrugalLiving.ViewModels.FeatureView> FeatureViews { get; set; }
+
+    
+
+
+
+
     }
 }
