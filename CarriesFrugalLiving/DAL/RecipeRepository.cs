@@ -111,7 +111,7 @@ namespace CarriesFrugalLiving.DAL
         */
         public IEnumerable<ReviewListView> 
             GetReviewList(
-             string     userCD      =   "",
+             string     userID      =   "",
              int        rating      =   0,
              int        offensive   =   0,
              int        recipeID    =   0,
@@ -122,8 +122,8 @@ namespace CarriesFrugalLiving.DAL
 
             var idParam1 = new SqlParameter
             {
-                ParameterName = "UserCD",
-                Value = userCD.Length > 0 ? userCD : SqlString.Null
+                ParameterName = "UserId",
+                Value = userID.Length > 0 ? userID : SqlString.Null
             };
 
             var idParam2 = new SqlParameter
@@ -151,7 +151,7 @@ namespace CarriesFrugalLiving.DAL
             };
 
             var _model = _dc.Database.SqlQuery<ReviewListView>(
-                "spGetReviewsList @UserCD, @Rating, @Offensive, @RecipeID, @kw", idParam1, idParam2, idParam3, idParam4, idParam5);
+                "spGetReviewsList @UserId, @Rating, @Offensive, @RecipeID, @kw", idParam1, idParam2, idParam3, idParam4, idParam5);
 
             return _model.ToList();
 
@@ -205,6 +205,27 @@ namespace CarriesFrugalLiving.DAL
             return rc;
         }
 
+
+        public IEnumerable<ReviewListView> SelectReviewsForUser(string userID)
+        {
+
+
+
+
+            var idParam1 = new SqlParameter
+            {
+                ParameterName = "UserId",
+                Value = userID.Length > 0 ? userID : SqlString.Null
+            };
+            
+
+            var _model = _dc.Database.SqlQuery<ReviewListView>(
+                "spGetReviewsList @UserId, NULL, NULL, NULL, NULL", idParam1);
+
+            return _model.ToList();
+
+
+        }
 
         /// <summary>
         /// GetReviewDisplayString

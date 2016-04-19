@@ -207,6 +207,7 @@ namespace CarriesFrugalLiving.Controllers
         }
 
         // GET: Recipes/Create
+        [Authorize(Roles = "Admin, Contributer")]
         public ActionResult Create()
         {
             return View();
@@ -216,6 +217,7 @@ namespace CarriesFrugalLiving.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Contributer")]
         public ActionResult Create([Bind(Include = "Name,ShortDescription,UserCd")] Recipe recipe)
         {
             if (ModelState.IsValid)
@@ -236,7 +238,7 @@ namespace CarriesFrugalLiving.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-
+        [Authorize]
         public ActionResult AddToCart(int? recipeID) {
            
             if (recipeID == null)
@@ -257,6 +259,7 @@ namespace CarriesFrugalLiving.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult AddToCart(FormCollection fc)
         {
 
@@ -302,6 +305,7 @@ namespace CarriesFrugalLiving.Controllers
 
 
         // GET: GroceryCarts/Create
+        [Authorize]
         public ActionResult CreateNewCart()
         {
             
@@ -313,6 +317,7 @@ namespace CarriesFrugalLiving.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult CreateNewCart([Bind(Include = "Email,UserCD,Name,CreateDate")] GroceryCart groceryCart)
         {
             int recipeID = 0;
@@ -344,6 +349,7 @@ namespace CarriesFrugalLiving.Controllers
         }
 
         // GET: Recipes/Edit/5
+        [Authorize(Roles = "Admin, Contributer")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -370,6 +376,7 @@ namespace CarriesFrugalLiving.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Contributer")]
         public ActionResult Edit(FormCollection fc)
         {
 
@@ -414,6 +421,7 @@ namespace CarriesFrugalLiving.Controllers
 
 
         // GET: Recipes/Delete/5
+        [Authorize(Roles = "Admin, Contributer")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -431,6 +439,7 @@ namespace CarriesFrugalLiving.Controllers
         // POST: Recipes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Contributer")]
         public ActionResult DeleteConfirmed(int id)
         {
             Session["LastRecipeID"] = 0;
@@ -442,6 +451,7 @@ namespace CarriesFrugalLiving.Controllers
         }
 
         //iMAGE UPLOAD
+        [Authorize(Roles = "Admin, Contributer")]
         public ActionResult Upload(int id)
         {
             if (db.Recipes.Find(id) == null)
@@ -476,6 +486,7 @@ namespace CarriesFrugalLiving.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin, Contributer")]
         public ActionResult Upload(Image image)
         {
             // Apply Validation Here
@@ -543,6 +554,7 @@ namespace CarriesFrugalLiving.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [Authorize(Roles = "Admin, Contributer")]
         public ActionResult AddIngredient(int? id) {
 
             Ingredient ingredient = new Ingredient();
@@ -571,6 +583,7 @@ namespace CarriesFrugalLiving.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Contributer")]
         public ActionResult AddIngredient([Bind(Include = "RecipeID,Description,UnitsID,qtyFraction,qtyWhole")] Ingredient ingredient)
         {
 
@@ -609,6 +622,7 @@ namespace CarriesFrugalLiving.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [Authorize(Roles = "Admin, Contributer")]
         public ActionResult EditIngredient(int? id)
         {
 
@@ -638,6 +652,7 @@ namespace CarriesFrugalLiving.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Contributer")]
         public ActionResult EditIngredient([Bind(Include = "RecipeID,Description,UnitsID,qtyFraction,qtyWhole")] Ingredient ingredient)
         {
 
@@ -672,6 +687,7 @@ namespace CarriesFrugalLiving.Controllers
             //return RedirectToAction("Details", new { id = ingredient.RecipeID });
         }
 
+        [Authorize(Roles = "Admin, Contributer")]
         public async Task<ActionResult> RemoveIngredient(int id)
         {
             Ingredient ingredient = await db.Ingredients.FindAsync(id);
@@ -694,6 +710,7 @@ namespace CarriesFrugalLiving.Controllers
             }
         }
 
+       
         public  ActionResult IngredientList(int id)
         {
             var model = _db.GetIngredientViewList(id);
@@ -708,7 +725,7 @@ namespace CarriesFrugalLiving.Controllers
             }
         }
 
-
+       
         public ActionResult IngredientDetails(int id)
         {
             var model = _db.GetIngredientViewList(id);
@@ -720,6 +737,7 @@ namespace CarriesFrugalLiving.Controllers
 
 
         //Reviews
+        [Authorize(Roles = "Admin, Reviewer, Contributer, Moderator")]
         public ActionResult AddReview(int? id) {
             if (id == null)
             {
@@ -740,12 +758,13 @@ namespace CarriesFrugalLiving.Controllers
 
         [HttpPost, ActionName("AddReview")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Reviewer, Contributer, Moderator")]
         public ActionResult AddReview([Bind(Include = "ReviewerDisplayName,ReviewText,Rating,TriedRecipe,RecipeID")] Review review)
         {
-            string userCD = User.Identity.Name;
 
-            review.UserCd = userCD;
-
+            var userID = User.Identity.GetUserId();
+            review.UserID = userID;
+            review.UserCd = User.Identity.GetUserName();
             if (ModelState.IsValid)
             {
                  
@@ -759,6 +778,7 @@ namespace CarriesFrugalLiving.Controllers
 
 
         //Reviews
+        [Authorize(Roles = "Admin, Reviewer, Contributer, Moderator")]
         public ActionResult ReportReview(int? id)
         {
             if (id == null)
@@ -786,6 +806,7 @@ namespace CarriesFrugalLiving.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Reviewer, Contributer, Moderator")]
         public async Task<ActionResult> ReportReview([Bind(Include = "ID,RecipeID,ReviewID,UserCD,CreateDate,AbuseType,Comment")] AbuseReport abuseReport)
                 {
                     if (User.Identity.IsAuthenticated == false)
@@ -893,6 +914,9 @@ Add report this link to disable content
         //$.post( "../something", {userGuid: "foo"}, function( data ) {
         //  console.log(data)
         //});
+
+    //http://www.pikemere.co.uk/blog/flot-how-to-create-pie-charts/
+
 //http://stackoverflow.com/questions/4907422/asp-net-mvc-get-current-host
 //
 //User Security Stamp

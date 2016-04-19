@@ -79,7 +79,10 @@
                     <br />
                     @if (User.Identity.IsAuthenticated)
                     {
-                        @Html.ActionLink("Add Ingredient", "AddIngredient", new { id = Model.ID })<br />
+                        if ((User.IsInRole("Admin") || (User.Identity.Name.ToString().Trim().ToLower()) == (Model.UserCd.Trim().ToLower())))
+                        {
+                           @Html.ActionLink("Add Ingredient", "AddIngredient", new { id = Model.ID })<br />
+                        }
                     }
                     <br />
                 </dd>

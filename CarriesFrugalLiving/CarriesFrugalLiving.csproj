@@ -188,6 +188,7 @@
     <Compile Include="Controllers\GroceryCartsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MyReviewsController.cs" />
     <Compile Include="Controllers\PickListsController.cs" />
     <Compile Include="Controllers\RecipesController.cs" />
     <Compile Include="Controllers\ReviewsController.cs" />
@@ -281,6 +282,10 @@
     <Compile Include="Migrations\201604121748456_picklist2.cs" />
     <Compile Include="Migrations\201604121748456_picklist2.Designer.cs">
       <DependentUpon>201604121748456_picklist2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604181256224_reviewcng.cs" />
+    <Compile Include="Migrations\201604181256224_reviewcng.Designer.cs">
+      <DependentUpon>201604181256224_reviewcng.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AbuseReport.cs" />
@@ -595,6 +600,10 @@
     <Content Include="Views\Account\ErrorPage.cshtml" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Views\Account\View.cshtml" />
+    <Content Include="Views\MyReviews\Delete.cshtml" />
+    <Content Include="Views\MyReviews\Details.cshtml" />
+    <Content Include="Views\MyReviews\Edit.cshtml" />
+    <Content Include="Views\MyReviews\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -674,6 +683,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201604121748456_picklist2.resx">
       <DependentUpon>201604121748456_picklist2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604181256224_reviewcng.resx">
+      <DependentUpon>201604181256224_reviewcng.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -40,10 +40,13 @@ namespace CarriesFrugalLiving.Models
 
         public bool IsUser { get; set; }
 
-        public int UserID { get; set; }
+
+        [MaxLength(100)]
+        public string UserID { get; set; }
 
         [MaxLength(100)]
         public string UserCd { get; set; }
+
         public bool IsValidated { get; set; }
 
         [Display(Name = "Flag as offensive")]

@@ -36,7 +36,11 @@
                             <ul class="dropdown-menu">
                                 <li>@Html.ActionLink("Profile", "UserProfile", "Account")</li>
                                 <li>@Html.ActionLink("Shopping Lists", "Index", "GroceryCarts")</li>
+                                @if (User.IsInRole("Reviewer") || User.IsInRole("Admin") || User.IsInRole("Contributer"))
+                                {
+                                    <li>@Html.ActionLink("My Reviews", "Index", "MyReviews")</li>
 
+                                }
                                 <li role="separator" class="divider"></li>
                                 @if (User.IsInRole("Admin"))
                                 {

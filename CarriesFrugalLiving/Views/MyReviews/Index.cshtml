@@ -1,0 +1,71 @@
+﻿@model IEnumerable<CarriesFrugalLiving.ViewModels.ReviewListView>
+
+@{
+    ViewBag.Title = "My Reviews";
+}
+
+<h2>@ViewBag.Title</h2>
+
+
+<hr />
+<table class="table color-primary-0">
+    <tr>
+        <th>
+            Recipe
+        </th>
+        <th>
+            Reviewer
+        </th>
+        <th>
+            Comment
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Rating)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Offensive)
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+            {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RecipeID)&nbsp;
+                @Html.DisplayFor(modelItem => item.RecipeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReviewerDisplayName)
+            </td>
+            <td>
+
+                @Html.DisplayFor(modelItem => item.ReviewShortened)
+
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Rating)
+            </td>
+
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Offensive)
+            </td>
+
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            </td>
+        </tr>
+    }
+
+</table>
+
+<div>
+
+
+</div>

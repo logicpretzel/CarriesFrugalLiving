@@ -48,13 +48,13 @@
         <table class="table color-primary-0">
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.RecipeID)
+                    Recipe
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.ReviewerDisplayName)
+                    Reviewer
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.ReviewShortened)
+                    Comment
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Rating)
@@ -71,7 +71,8 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.RecipeID)
+                        @Html.DisplayFor(modelItem => item.RecipeID)&nbsp;
+                        @Html.DisplayFor(modelItem => item.RecipeName)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.ReviewerDisplayName)

@@ -4,7 +4,40 @@
     ViewBag.Title = "User Maintenance Listing";
 }
 
-<h2>Index</h2>
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <table class="table col-sm-8 bgcolor-maroon">
+        <tr>
+           
+            <td>
+                <div>User Name:</div><input id="userName" name="userName" type="text" />
+            </td>
+            <td>
+                <div>Last Name:</div> <input id="lastName" name="lastName" type="text" />
+
+            </td>
+            <td>
+                <div>Email:</div> <input id="email" name="email" type="text" />
+
+            </td>
+            <td>
+                <div>Roles:</div>@Html.DropDownList("role", (IEnumerable<SelectListItem>)ViewBag.Roles, "", new { onchange = "this.form.submit()" })
+
+            </td>
+           
+
+            <td>
+                <span class="glyphicon glyphicon-search"></span><input type="submit" value="Search" class="btn btn-primary" />
+            </td>
+        </tr>
+
+    </table>
+    <input type="reset" onclick="javascript: submit();" />
+} <!-- SEARCH FORM END -->
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -12,7 +45,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.UserName)
+           User Name
         </th>
         <th>
             @Html.DisplayNameFor(model => model.LastName)

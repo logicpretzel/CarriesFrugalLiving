@@ -22,11 +22,20 @@ namespace CarriesFrugalLiving.Controllers
     /// 
     /// Revised: 4/11/16 - Add Default "User" Role on register
     /// </summary>
+    /// 
+
+   
+
     [Authorize]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+
+
+        ApplicationDbContext db = new ApplicationDbContext();
+        private RecipeRepository _dc = new RecipeRepository();
+
 
         public AccountController()
         {
@@ -151,14 +160,46 @@ namespace CarriesFrugalLiving.Controllers
         }
 
 
+        #region INDEX
+
         [Authorize(Roles = "Admin")]
         public ActionResult Index() {
-            ApplicationDbContext db = new ApplicationDbContext();
+           
             var model = UserManager.Users.ToList();
+
+            var list = db.Roles.OrderBy(r => r.Name).ToList().Select(rr => new SelectListItem { Value = rr.Name.ToString(), Text = rr.Name }).ToList();
+            ViewBag.Roles = list;
 
             return View(model);
         }
 
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public ActionResult Index(FormCollection fc)
+        {
+            
+
+          
+
+            string userName = "", lastName = "", email = "", role = "";
+
+
+            userName = fc["userName"] != null ? fc["userName"] : "";
+            lastName = fc["lastName"] != null ? fc["lastName"] : "";
+            email = fc["email"] != null ? fc["email"] : "";
+            role = fc["role"] != null ? fc["role"] : "";
+            var list = db.Roles.OrderBy(r => r.Name).ToList().Select(rr => new SelectListItem { Value = rr.Name.ToString(), Text = rr.Name }).ToList();
+            
+            ViewBag.Roles = list;
+
+
+            var model = _dc.GetUserSearchableList(userName, lastName, email, role);
+
+            return View(model);
+
+        }
+        #endregion
 
         #region CREATE
 
@@ -181,13 +222,13 @@ namespace CarriesFrugalLiving.Controllers
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Email, Password, FirstName, LastName, Address, City, State, Zip")]RegisterViewModel model)
+        public async Task<ActionResult> Create([Bind(Include = "UserName,Email, Password,ConfirmPassword, FirstName, LastName, Address, City, State, Zip")]CreateViewModel model)
         {
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser
                 {
-                    UserName = model.Email,
+                    UserName = model.UserName,
                     Email = model.Email,
                     FirstName = model.FirstName,
                     LastName = model.LastName,
@@ -209,7 +250,7 @@ namespace CarriesFrugalLiving.Controllers
 
                                    
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index");
                 }
                 AddErrors(result);
             }
@@ -376,9 +417,10 @@ namespace CarriesFrugalLiving.Controllers
         public async Task<ActionResult> ChangePassword(string Id)
         {
             ApplicationUser user = await UserManager.FindByIdAsync(Id);
-            if (user == null)
+
+            if (user == null || user.Email == null || user.UserName == null)
             {
-                return ErrorPage("Invalid Operation trying to set password.");
+                return RedirectToAction( "ErrorPage" , new {msg = "Invalid Operation trying to set password."  });
 
             }
             SetUserPasswordViewModel model = new SetUserPasswordViewModel();
@@ -472,15 +514,16 @@ namespace CarriesFrugalLiving.Controllers
                     if (result.Succeeded == true)
                     {
 
-                       // email = "dar@ccssllc.com";
-                        utils.EmailSender eSender = new utils.EmailSender();
-                        string subject = String.Format("Account {0} has been removed for CarriesFrugalLiving.com", email);
+                        //// email = "dar@ccssllc.com";
+                        // utils.EmailSender eSender = new utils.EmailSender();
+                        // string subject = String.Format("Account {0} has been removed for CarriesFrugalLiving.com", email);
 
-                        string sBody = eSender.GetNotifyMsgBody(subject
-                            , "If you received this message unexpectedly please contact us. For security reasons we will not provide a link, but simply access the main site and click Contact Us. Thank you.");
-                        var msg = eSender.Send(email, subject, sBody, true, null);
-                        eSender = null;
-                        ViewBag.ErrMsg = msg;
+                        // string sBody = eSender.GetNotifyMsgBody(subject
+                        //     , "If you received this message unexpectedly please contact us. For security reasons we will not provide a link, but simply access the main site and click Contact Us. Thank you.");
+                        // var msg = eSender.Send(email, subject, sBody, true, null);
+                        // eSender = null;
+                        // ViewBag.ErrMsg = msg;
+                        return RedirectToAction("Index");
                     }
 
                 }

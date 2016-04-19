@@ -19,7 +19,8 @@ namespace CarriesFrugalLiving.ViewModels
             FIVE_STARS
         }
 
- 
+        public string RecipeName { get; set; }
+
 
         [MaxLength(50)]
         [Display(Name = "Display Name")]
@@ -48,4 +49,7 @@ namespace CarriesFrugalLiving.ViewModels
 
 
     }
+
+
+
 }

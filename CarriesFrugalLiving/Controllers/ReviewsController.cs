@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using CarriesFrugalLiving.Models;
 using CarriesFrugalLiving.DAL;
+using Microsoft.AspNet.Identity;
 
 namespace CarriesFrugalLiving.Controllers
 {
@@ -84,8 +85,10 @@ namespace CarriesFrugalLiving.Controllers
             return View(model);
         }
 
+       
 
         // GET: Reviews/Details/5
+        [Authorize(Roles ="Admin")]
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
@@ -101,6 +104,7 @@ namespace CarriesFrugalLiving.Controllers
         }
 
         // GET: Reviews/Create
+        [Authorize(Roles = "Admin, Reviewer")]
         public ActionResult Create()
         {
             return View();
@@ -111,10 +115,14 @@ namespace CarriesFrugalLiving.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ID,RecipeID,ReviewerDisplayName,ReviewText,Rating,TriedRecipe,IsUser,UserID,UserCd,IsValidated,Offensive,ReportedByUserCD")] Review review)
+        [Authorize(Roles = "Admin, Reviewer")]
+        public async Task<ActionResult> Create([Bind(Include = "ID,RecipeID,ReviewerDisplayName,ReviewText,Rating,TriedRecipe,IsUser,UserCd,UserID, IsValidated,Offensive,ReportedByUserCD")] Review review)
         {
             if (ModelState.IsValid)
             {
+                var userID = User.Identity.GetUserId();
+                review.UserID = userID;
+                review.UserCd = User.Identity.GetUserName();
                 db.Reviews.Add(review);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -124,6 +132,7 @@ namespace CarriesFrugalLiving.Controllers
         }
 
         // GET: Reviews/Edit/5
+        [Authorize(Roles = "Admin, Reviewer, Moderator")]
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -143,7 +152,8 @@ namespace CarriesFrugalLiving.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ID,RecipeID,ReviewerDisplayName,ReviewText,Rating,TriedRecipe,IsUser,UserID,UserCd,IsValidated,Offensive,ReportedByUserCD")] Review review)
+        [Authorize(Roles = "Admin, Reviewer, Moderator")]
+        public async Task<ActionResult> Edit([Bind(Include = "ID,RecipeID,ReviewerDisplayName,ReviewText,Rating,TriedRecipe,IsUser,UserCd,IsValidated,Offensive,ReportedByUserCD")] Review review)
         {
             if (ModelState.IsValid)
             {
@@ -155,6 +165,7 @@ namespace CarriesFrugalLiving.Controllers
         }
 
         // GET: Reviews/Delete/5
+        [Authorize(Roles = "Admin, Reviewer, Moderator")]
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
@@ -172,6 +183,7 @@ namespace CarriesFrugalLiving.Controllers
         // POST: Reviews/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Reviewer, Moderator")]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             Review review = await db.Reviews.FindAsync(id);
