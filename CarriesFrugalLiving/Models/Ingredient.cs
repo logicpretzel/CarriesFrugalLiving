@@ -20,6 +20,7 @@ namespace CarriesFrugalLiving.Models
         public int RecipeID { get; set; }
         public decimal Quantity { get; set; }
         public int UnitsID { get; set; }
+
         [MaxLength(4000)]
         [DataType(DataType.MultilineText)]
         [Display(ShortName = "Review Comment(optional)")]
@@ -30,5 +31,7 @@ namespace CarriesFrugalLiving.Models
         public int qtyWhole { get; set; }
         [Display(ShortName = "and/or (Fractional Quantity )")]
         public int qtyFraction { get; set; }
+
+        public int sortorder { get; set; }
     }
 }

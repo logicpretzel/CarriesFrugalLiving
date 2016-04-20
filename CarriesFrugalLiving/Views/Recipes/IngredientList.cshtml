@@ -32,6 +32,16 @@
                         @Html.DisplayFor(modelItem => item.Description)
                     </td>
                     <td>
+                        <a href="@Url.Action("UpdateIngredient", new { id = @item.ID })" title="Edit">
+                            <i class="glyphicon glyphicon-pencil"></i>
+                            <span class="sr-only">Edit</span>
+                        </a>
+                        <button class="btn btn-info" onclick="up(@item.ID)">
+                            <span class="glyphicon glyphicon-arrow-up"></span>
+                        </button>&nbsp;
+                        <button class="btn btn-info" onclick="dn(@item.ID)">
+                            <span class="glyphicon glyphicon-arrow-down"></span>
+                        </button>&nbsp;
                         <button class="btn btn-sm btn-danger" onclick="d(@item.ID)">
                            <span class="glyphicon glyphicon-trash"></span>
                         </button>
@@ -42,3 +52,5 @@
             }
 
         </table>
+
+    @ViewBag.Err;

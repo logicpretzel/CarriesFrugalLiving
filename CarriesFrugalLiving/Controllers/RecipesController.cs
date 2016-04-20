@@ -166,45 +166,6 @@ namespace CarriesFrugalLiving.Controllers
 
 
 
-        public ActionResult ReviewList(int id)
-        {
-            var model = _db.SelectReviews(id);
-            ViewBag.TotalReviews = _db.GetReviewCount(id);
-            ViewBag.AverageRating = _db.GetAverageRating(id).ToString("#,##0.0##");
-
-            return PartialView(model);
-        }
-
-        [HttpPost]
-        public ActionResult ReviewList(FormCollection fc)
-        {
-            int id = 0;
-            string sID = fc["sfRecipeID"] == null ? "" : fc["sfRecipeID"];
-            string sRating = fc["sfRating"] == null ? "" : fc["sfRating"];
-
-            Review.eReviewStarRating eRating = Review.eReviewStarRating.NONE;
-
-            if (!int.TryParse(sID, out id)){
-                id = 0;
-            }
-           
-            else {
-                if (!Enum.TryParse<Review.eReviewStarRating>(sRating, out eRating   )){
-                   eRating = Review.eReviewStarRating.NONE;
-                }
-            }
-
-            var model = _db.SelectReviews(id);
-
-            if (eRating != Review.eReviewStarRating.NONE) {
-                model = model.Where(s => s.Rating == eRating);
-            }
-           
-            ViewBag.TotalReviews = _db.GetReviewCount(id);
-            ViewBag.AverageRating = _db.GetAverageRating(id).ToString("#,##0.0##");
-
-            return PartialView(model);
-        }
 
         // GET: Recipes/Create
         [Authorize(Roles = "Admin, Contributer")]
@@ -547,7 +508,91 @@ namespace CarriesFrugalLiving.Controllers
 
         }
 
+        #region INGREDIENTS
 
+
+
+        [Authorize(Roles = "Admin, Contributer")]
+        public ActionResult UpdateIngredient(int? id)
+        {
+            
+            if (id == null)
+            {
+                //  return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Index");
+
+            }
+
+            Ingredient model  = db.Ingredients.Find(id);
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
+            
+
+            ViewBag.UMList = new SelectList(db.UnitMeasures, "ID", "Description", model.UnitsID);
+
+            ViewBag.Fractions = new SelectList(db.mFractions, "id", "text", model.qtyFraction);
+
+
+
+            return View(model);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Contributer")]
+        public ActionResult UpdateIngredient(FormCollection fc)
+        {
+            string sErr = "";
+
+            int id;
+            if (!int.TryParse(fc["id"].ToString(), out id))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            if (id == 0)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            
+            var _model = db.Ingredients.Find(id);
+
+            if (TryUpdateModel(_model, "",
+               new string[] { "RecipeID", "Description"
+               , "UnitsID","qtyWhole", "qtyFraction"
+               }))
+            {
+                try
+                {
+                    db.SaveChanges();
+                   
+                }
+                catch (DataException /* dex */)
+                {
+                    ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+                }
+
+                try
+                {
+                    if (fc["addingredient"] == "Add Ingredient")
+                    {
+                        return RedirectToAction("EditIngredient", new { id = _model.RecipeID });
+                    }
+                    else {
+                        return RedirectToAction("Details", new { id = _model.RecipeID });
+                    }
+                } catch (Exception e)
+                {
+                    sErr = e.Message;
+                }
+            }
+
+            return View(_model);
+
+        }
 
         /// <summary>
         /// Add Ingredient
@@ -601,7 +646,8 @@ namespace CarriesFrugalLiving.Controllers
             {
                 ingredient.Quantity = (decimal)(ingredient.qtyWhole) + _db.GetFractionDecimalAmount(ingredient.qtyFraction);
                 db.Ingredients.Add(ingredient);
-
+                db.SaveChanges();
+                ingredient.sortorder = ingredient.ID;
                 db.SaveChanges();
                // return RedirectToAction("Details", new { id = ingredient.RecipeID });
             }
@@ -673,6 +719,8 @@ namespace CarriesFrugalLiving.Controllers
                 db.Ingredients.Add(ingredient);
 
                 db.SaveChanges();
+                ingredient.sortorder = ingredient.ID;
+                db.SaveChanges();
                 // return RedirectToAction("Details", new { id = ingredient.RecipeID });
             }
 
@@ -685,6 +733,56 @@ namespace CarriesFrugalLiving.Controllers
             return View(ingredient);
 
             //return RedirectToAction("Details", new { id = ingredient.RecipeID });
+        }
+
+        [Authorize(Roles = "Admin, Contributer")]
+        public ActionResult MoveIngredientUp (int id)
+        {
+            string sErr = "";
+            Ingredient ingredient =  db.Ingredients.Find(id);
+            int recipeID = 0;
+            if (ingredient != null)
+            {
+                recipeID = ingredient.RecipeID;
+               sErr =  _db.IngredientMove(id, recipeID, 0);
+
+            }
+            var model = _db.GetIngredientViewList(recipeID);
+            if (model != null)
+            {
+                ViewBag.RecipeID = recipeID;
+                ViewBag.ERR = sErr;
+                return PartialView("IngredientList", model);
+            }
+            else {
+                return null;
+            }
+        }
+
+
+        [Authorize(Roles = "Admin, Contributer")]
+        public ActionResult MoveIngredientDn(int id)
+        {
+            string sErr = "";
+            Ingredient ingredient = db.Ingredients.Find(id);
+            int recipeID = 0;
+            if (ingredient != null)
+            {
+                
+                recipeID = ingredient.RecipeID;
+                sErr =  _db.IngredientMove(id, recipeID, 1);
+
+            }
+            var model = _db.GetIngredientViewList(recipeID);
+            if (model != null)
+            {
+                ViewBag.RecipeID = recipeID;
+                ViewBag.ERR = sErr;
+                return PartialView("IngredientList", model);
+            }
+            else {
+                return null;
+            }
         }
 
         [Authorize(Roles = "Admin, Contributer")]
@@ -735,6 +833,55 @@ namespace CarriesFrugalLiving.Controllers
             return PartialView(model);
         }
 
+
+
+
+        #endregion
+
+        #region REVIEWS
+
+        public ActionResult ReviewList(int id)
+        {
+            var model = _db.SelectReviews(id);
+            ViewBag.TotalReviews = _db.GetReviewCount(id);
+            ViewBag.AverageRating = _db.GetAverageRating(id).ToString("#,##0.0##");
+
+            return PartialView(model);
+        }
+
+        [HttpPost]
+        public ActionResult ReviewList(FormCollection fc)
+        {
+            int id = 0;
+            string sID = fc["sfRecipeID"] == null ? "" : fc["sfRecipeID"];
+            string sRating = fc["sfRating"] == null ? "" : fc["sfRating"];
+
+            Review.eReviewStarRating eRating = Review.eReviewStarRating.NONE;
+
+            if (!int.TryParse(sID, out id))
+            {
+                id = 0;
+            }
+
+            else {
+                if (!Enum.TryParse<Review.eReviewStarRating>(sRating, out eRating))
+                {
+                    eRating = Review.eReviewStarRating.NONE;
+                }
+            }
+
+            var model = _db.SelectReviews(id);
+
+            if (eRating != Review.eReviewStarRating.NONE)
+            {
+                model = model.Where(s => s.Rating == eRating);
+            }
+
+            ViewBag.TotalReviews = _db.GetReviewCount(id);
+            ViewBag.AverageRating = _db.GetAverageRating(id).ToString("#,##0.0##");
+
+            return PartialView(model);
+        }
 
         //Reviews
         [Authorize(Roles = "Admin, Reviewer, Contributer, Moderator")]
@@ -824,9 +971,9 @@ namespace CarriesFrugalLiving.Controllers
 
                     return View(abuseReport);
                 }
-     
-       
 
+
+        #endregion
 
 
         protected override void Dispose(bool disposing)

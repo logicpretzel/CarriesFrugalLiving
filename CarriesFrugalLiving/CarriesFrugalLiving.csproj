@@ -287,6 +287,10 @@
     <Compile Include="Migrations\201604181256224_reviewcng.Designer.cs">
       <DependentUpon>201604181256224_reviewcng.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201604200826271_ingredient.cs" />
+    <Compile Include="Migrations\201604200826271_ingredient.Designer.cs">
+      <DependentUpon>201604200826271_ingredient.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AbuseReport.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -604,6 +608,7 @@
     <Content Include="Views\MyReviews\Details.cshtml" />
     <Content Include="Views\MyReviews\Edit.cshtml" />
     <Content Include="Views\MyReviews\Index.cshtml" />
+    <Content Include="Views\Recipes\UpdateIngredient.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -686,6 +691,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201604181256224_reviewcng.resx">
       <DependentUpon>201604181256224_reviewcng.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604200826271_ingredient.resx">
+      <DependentUpon>201604200826271_ingredient.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

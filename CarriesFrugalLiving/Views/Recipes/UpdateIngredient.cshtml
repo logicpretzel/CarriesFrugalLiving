@@ -1,14 +1,22 @@
 ﻿@model CarriesFrugalLiving.Models.Ingredient
 
-@using (Html.BeginForm()) 
+@{
+    ViewBag.Title = "Update Ingredient";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Ingredient</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-       <input type="hidden" name="RecipeID" value="@Model.RecipeID" />
+
+        <input type="hidden" name="id" value="@Model.ID" />
+        <input type="hidden" name="RecipeID" value="@Model.RecipeID" />
 
         <div class="form-group">
             <div class="col-md-2">Quantity (whole number)</div>
@@ -23,7 +31,7 @@
         <div class="form-group">
             <div class="col-md-2">and/or Fractional Qty:</div>
             <div class="col-md-8">
-                @Html.DropDownListFor(x => x.qtyFraction, (SelectList)ViewData["Fractions"] )
+                @Html.DropDownListFor(x => x.qtyFraction, (SelectList)ViewData["Fractions"])
             </div>
         </div>
 
@@ -31,10 +39,10 @@
         <div class="form-group">
             <div class="col-md-2"></div>
             <div class="col-md-8">
-               @Html.DropDownListFor(x => x.UnitsID, (SelectList)ViewData["UMList"]      )
+                @Html.DropDownListFor(x => x.UnitsID, (SelectList)ViewData["UMList"])
             </div>
         </div>
-           
+
 
         <div class="form-group">
             @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -46,44 +54,18 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-primary " />
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </div>
+
     </div>
 }
 
+
 <div>
- 
-    @Html.ActionLink("Back (Cancel)", "Details", new { id = Model.RecipeID }, new { @class = "btn btn-danger" })
-     
-</div>
-<div id="list">
-    @Html.Action("IngredientList", "Recipes", new { id = Model.RecipeID })
+    @Html.ActionLink("Back to List", "Index")
 </div>
 
-<script type="text/javascript">
-
-        function d(id) {
-            var url = "/Recipes/RemoveIngredient/";
-            $.get(url, { id: id })
-             .done(function (response) {
-                 $("#list").html(response);
-             });
-        }
-
-        function up(id) {
-            var url = "/Recipes/MoveIngredientUp/";
-            $.get(url, { id: id })
-             .done(function (response) {
-                 $("#list").html(response);
-             });
-        }
-
-        function dn(id) {
-            var url = "/Recipes/MoveIngredientDn/";
-            $.get(url, { id: id })
-             .done(function (response) {
-                 $("#list").html(response);
-             });
-        }
-</script>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

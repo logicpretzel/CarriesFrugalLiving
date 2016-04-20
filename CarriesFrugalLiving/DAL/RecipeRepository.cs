@@ -342,6 +342,41 @@ namespace CarriesFrugalLiving.DAL
 
         }
 
+        public string IngredientMove(int id, int recipeID, int v)
+        {
+            int rc = 0;
+            string sErr = "";
+            var idParam1 = new SqlParameter
+            {
+                ParameterName = "RecipeID",
+                Value = recipeID
+            };
+            var idParam2 = new SqlParameter
+            {
+                ParameterName = "IngredientID",
+                Value = id
+            };
+            var idParam3 = new SqlParameter
+            {
+                ParameterName = "Direction",
+                Value = v
+            };
+
+            try
+            {
+                rc = _dc.Database.ExecuteSqlCommand("spIngredientMove @RecipeID,@IngredientID,@Direction",
+                  idParam1, idParam2, idParam3);
+            }
+            catch (Exception e)
+            {
+                sErr = e.Message;
+                var s = sErr;
+
+            }
+
+
+            return sErr;
+        }
 
         #endregion
 
