@@ -14,7 +14,7 @@ namespace CarriesFrugalLiving.Models
 
        
         [MaxLength(100)]
-        public string UserCD { get; set; }
+        public string UserID { get; set; }
 
         
         [DataType(DataType.EmailAddress)]

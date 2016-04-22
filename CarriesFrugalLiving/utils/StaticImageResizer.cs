@@ -85,17 +85,7 @@ namespace CarriesFrugalLiving.utils
            h = (int)fHeight;
         }
 
-        /*
-                byte[] jpgImageBytes = null;
-        using (var origImageStream = new MemoryStream(image))
-        using (var jpgImageStream = new MemoryStream())
-        {
-            var jpgImage = System.Drawing.Image.FromStream(origImageStream);
-            jpgImage.Save(jpgImageStream, System.Drawing.Imaging.ImageFormat.Jpeg);
-            jpgImageBytes = jpgImageStream.ToArray();
-            jpgImage.Dispose();
-        }
-                    */
+     
 
         public static byte[] GetScaledDownByteArray(byte[] byteImage, int maxWidth, int maxHeight) {
             byte[] rc;
@@ -129,3 +119,17 @@ namespace CarriesFrugalLiving.utils
 
     }
 }
+
+
+
+/*
+             byte[] jpgImageBytes = null;
+     using (var origImageStream = new MemoryStream(image))
+     using (var jpgImageStream = new MemoryStream())
+     {
+         var jpgImage = System.Drawing.Image.FromStream(origImageStream);
+         jpgImage.Save(jpgImageStream, System.Drawing.Imaging.ImageFormat.Jpeg);
+         jpgImageBytes = jpgImageStream.ToArray();
+         jpgImage.Dispose();
+     }
+                 */

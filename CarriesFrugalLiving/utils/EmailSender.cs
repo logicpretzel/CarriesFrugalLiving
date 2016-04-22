@@ -1,26 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
 
 namespace CarriesFrugalLiving.utils
 {
-  
-
     public class EmailSender
     {
-        private static int _port;
+        private static string _port;
         private static string _accountName;
         private static string _password;
+        private static string _servername;
 
         public string GetNotifyMsgBody(string sTitle = "", string sBody = "")
         {
-
-           
             string font = "font-family: Verdana, Arial, sans-serif; font-size: 1.5em; ";
             string rc = "<body style=\"" 
                 + font + " margin: 0; padding: 0; min-width: 100%; margin: 0; padding: 0; min-width: 100%; width: 100%;\">" 
@@ -28,8 +20,7 @@ namespace CarriesFrugalLiving.utils
                 + font + " width: 100%; max-width: 600px; background-color: #AC5865; color: maroon;\"  ><tr>" 
                 + String.Format("<td>\n{0}\n</td>",sBody) 
                 + " </tr></table></td></tr></table></body>";
-          
-
+ 
             
             return rc;
         }
@@ -40,16 +31,30 @@ namespace CarriesFrugalLiving.utils
             To.Add(to);
             return Send(To, subject, body, isHtml, attachments);
         }
+
+
         public string  Send(MailAddressCollection toAddresses, string subject, string body, bool isHtml, string[] attachments)
         {
             string  rc = "";
-            _port = 25;
-            _accountName = "noreply@carriesfrugalliving.com";
-            _password = "1Q2w3e4r5t6y&";
-           
+            string sBCC = "";
+            int port = 0;
+
+
+            _accountName = System.Configuration.ConfigurationManager.AppSettings["FLMailUserName"];
+            _password = System.Configuration.ConfigurationManager.AppSettings["FLMailPassWord"];
+            sBCC =  System.Configuration.ConfigurationManager.AppSettings["FLMailBCCAddress"];
+            _servername = System.Configuration.ConfigurationManager.AppSettings["FLServerName"];
+            _port = System.Configuration.ConfigurationManager.AppSettings["FLServerPort"];
+
+            if (!int.TryParse(_port, out port))
+            {
+                port = 25;
+            }
+
             MailAddress from = new MailAddress(_accountName);
             MailAddress bcc;
-            bcc = new MailAddress("dar@ccssllc.com");
+            bcc = new MailAddress(sBCC);
+
             MailMessage mailMessage = new MailMessage()
             {
                 From = from,
@@ -58,7 +63,6 @@ namespace CarriesFrugalLiving.utils
                 IsBodyHtml = isHtml
             };
  
-            
             try
             {
                 foreach (var a in toAddresses)
@@ -86,19 +90,9 @@ namespace CarriesFrugalLiving.utils
                 rc = e.Message;
             }
 
-            // assign outgoing server
-            //SmtpClient smtp = new SmtpClient("smtpout.secureserver.net", _port);
-            //SmtpClient smtp = new SmtpClient("relay-hosting.secureserver.net", _port);
-
-            string servernm = "relay-hosting.secureserver.net";
-            //if (HttpContext.Current.ApplicationInstance.Request.Url.Host  == "localhost")
-            //{
-            //    servernm = "smtpout.secureserver.net";  // to test in ide
-            //}
-
             try
             {
-                SmtpClient smtp = new SmtpClient(servernm, _port);
+                SmtpClient smtp = new SmtpClient(_servername, port);
 
                 smtp.Timeout = 90000;
                 smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
@@ -116,6 +110,8 @@ namespace CarriesFrugalLiving.utils
             return rc;
 
         }
+
+
     }
 
 }

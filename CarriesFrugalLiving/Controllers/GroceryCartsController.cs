@@ -119,7 +119,7 @@ namespace CarriesFrugalLiving.Controllers
                 if (userCD != null)
                 {
                     groceryCart = _dc.GetGroceryCart((int)id);
-                    if (userCD != groceryCart.UserCD)
+                    if (userCD != groceryCart.UserID)
                     {
                         groceryCart = null;
                     }
@@ -254,7 +254,7 @@ namespace CarriesFrugalLiving.Controllers
             var UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
 
                 var user = await UserManager.FindByEmailAsync(groceryCart.Email);
-                groceryCart.UserCD = user.Id;
+                groceryCart.UserID = user.Id;
                 if (user != null)
                 {
                     if (ModelState.IsValid)
@@ -297,7 +297,7 @@ namespace CarriesFrugalLiving.Controllers
             if (ModelState.IsValid)
             {
               
-                groceryCart.UserCD = User.Identity.GetUserId();
+                groceryCart.UserID = User.Identity.GetUserId();
                 groceryCart.CreateDate = DateTime.Today;
 
                 db.GroceryCarts.Add(groceryCart);

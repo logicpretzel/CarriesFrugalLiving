@@ -165,8 +165,6 @@ namespace CarriesFrugalLiving.DAL
             IQueryable<Review> _reviews = _dc.Reviews;
             if (recipeID >= 1)
                 _reviews = (from r in _reviews where r.RecipeID == recipeID select r).Where(r => r.Offensive == false);
-
-
             return _reviews.ToList();
 
         }
@@ -208,9 +206,6 @@ namespace CarriesFrugalLiving.DAL
 
         public IEnumerable<ReviewListView> SelectReviewsForUser(string userID)
         {
-
-
-
 
             var idParam1 = new SqlParameter
             {
@@ -413,7 +408,7 @@ namespace CarriesFrugalLiving.DAL
         public IEnumerable<GroceryCart> GetGroceryCarts(string userCD)
         {
             IQueryable<GroceryCart> _gc = _dc.GroceryCarts;
-            _gc = _gc.Where(s => s.UserCD.Trim().ToLower() == userCD.Trim().ToLower());
+            _gc = _gc.Where(s => s.UserID.Trim().ToLower() == userCD.Trim().ToLower());
             return _gc.ToList();
 
         }
@@ -446,7 +441,7 @@ namespace CarriesFrugalLiving.DAL
             {
                 IQueryable<GroceryCart> _gc = _dc.GroceryCarts;
                 _gc = _gc.Where(s => s.ID == cartID);
-                rc = _gc.FirstOrDefault().UserCD.ToString();
+                rc = _gc.FirstOrDefault().UserID.ToString();
 
             }
             catch (Exception e)
@@ -488,7 +483,7 @@ namespace CarriesFrugalLiving.DAL
         }
 
 
-        public int AddIngredientsToGroceryCart(int recipeID, string userCD, string cartName)
+        public int AddIngredientsToGroceryCart(int recipeID, string userID, string cartName)
         {
             int rc = 0;
             string sErr = "";
@@ -499,8 +494,8 @@ namespace CarriesFrugalLiving.DAL
             };
             var idParam2 = new SqlParameter
             {
-                ParameterName = "UserCD",
-                Value = userCD
+                ParameterName = "UserID",
+                Value = userID
             };
             var idParam3 = new SqlParameter
             {
@@ -509,7 +504,7 @@ namespace CarriesFrugalLiving.DAL
             };
 
             try {
-                rc = _dc.Database.ExecuteSqlCommand("spAddRecipeToCart @UserCD,@recipeid,@Name",
+                rc = _dc.Database.ExecuteSqlCommand("spAddRecipeToCart @UserID,@recipeid,@Name",
                   idParam1, idParam2, idParam3);
             } catch (Exception e)
             {

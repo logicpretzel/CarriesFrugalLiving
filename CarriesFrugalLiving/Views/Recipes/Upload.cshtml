@@ -9,7 +9,7 @@
 @using (Html.BeginForm("Upload", "Recipes", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.ValidationSummary(true)
-
+    @Html.AntiForgeryToken()
     <input type="hidden" name="RecipeId" value="@ViewBag.RecipeID" />
     <table>
         <tr>

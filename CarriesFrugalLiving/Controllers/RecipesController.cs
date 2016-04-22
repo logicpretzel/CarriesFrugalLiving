@@ -26,42 +26,11 @@ namespace CarriesFrugalLiving.Controllers
         private const int MAXPICWIDTH = 300;
         private const int MAXPICHEIGHT = 500;
 
-        // private FrugalLivingDB db = new FrugalLivingDB();
 
         private RecipeRepository _db = new RecipeRepository();
         private ApplicationDbContext db = new ApplicationDbContext();
+ 
         // GET: Recipes
-
-       
-
-        //private bool IsContributor()
-        //{
-        //    if (User.Identity.IsAuthenticated == false)
-        //    {
-        //        return false;
-        //    }
-
-        //    if (User.IsInRole("Admin") || User.IsInRole("Contributor"))
-        //    {
-        //        return true;
-        //    }
-        //    return false;
-        //}
-
-        //private bool IsReviewer()
-        //{
-        //    if (User.Identity.IsAuthenticated == false)
-        //    {
-        //        return false;
-        //    }
-
-        //    if (User.IsInRole("Admin") || User.IsInRole("Reviewer") || User.IsInRole("Moderator"))
-        //    {
-        //        return true;
-        //    }
-        //    return false;
-        //}
-
         public ActionResult Index()
         {
             var model = db.Recipes.ToList();
@@ -69,6 +38,8 @@ namespace CarriesFrugalLiving.Controllers
             return View(model);
         }
 
+
+        #region RECIPE_DETAILS
         // GET: Recipes/Details/5
         public ActionResult Details(int? id)
         {
@@ -89,8 +60,9 @@ namespace CarriesFrugalLiving.Controllers
             
             return View(recipe);
         }
+        #endregion
 
-
+        #region PRINT_RECIPE
         public ActionResult RecipePrint(int? id)
         {
             if (id == null || id == 0)
@@ -110,13 +82,17 @@ namespace CarriesFrugalLiving.Controllers
 
             return View(recipe);
         }
+        #endregion
 
+        #region LIST_RECIPES
 
+        [AllowAnonymous]
         public ActionResult List(string scategory = "")
         {
             int i = -1;
             Recipe.eCategory category = Recipe.eCategory.NONE;
             List<Recipe> model ;
+            
 
             if (scategory != "")
             {
@@ -151,20 +127,26 @@ namespace CarriesFrugalLiving.Controllers
             return View(model);
         }
 
-
-
+        string swatch = "";
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AllowAnonymous]
         public ActionResult List(FormCollection fc)
         {
             string kw = fc["kw"].ToString();
+            kw = utils.HtmlEncodeDecode.Encode(kw);
+            swatch = kw;
             var model = _db.SelectRecipes(kw);
+
             ViewBag.TotalRecipes = model.Count();
             return View(model);
         }
 
+        #endregion
 
+
+        #region CREATE_RECIPE
 
 
         // GET: Recipes/Create
@@ -183,6 +165,8 @@ namespace CarriesFrugalLiving.Controllers
         {
             if (ModelState.IsValid)
             {
+                recipe.UserId = User.Identity.GetUserId();
+                recipe.UserCd = User.Identity.GetUserName();
                 db.Recipes.Add(recipe);
                 db.SaveChanges();
 
@@ -193,6 +177,9 @@ namespace CarriesFrugalLiving.Controllers
 
             return View(recipe);
         }
+        #endregion
+
+        #region CARTS
 
         /// <summary>
         /// AddToCart
@@ -207,11 +194,11 @@ namespace CarriesFrugalLiving.Controllers
                 return RedirectToAction("Index");
             }
             else {
-                string userCD = User.Identity.GetUserId();
+                string userID = User.Identity.GetUserId();
                 var model = _db.GetIngredientViewList((int)recipeID);
                 Session["LastRecipeID"] = (int)recipeID;
                 ViewBag.RecipeID = (int)recipeID;
-                ViewBag.GroceryCarts = new SelectList(_db.GetGroceryCarts(userCD), "ID", "Name");
+                ViewBag.GroceryCarts = new SelectList(_db.GetGroceryCarts(userID), "ID", "Name");
                 return View(model); 
             }
 
@@ -247,20 +234,20 @@ namespace CarriesFrugalLiving.Controllers
                 cartName = "Default";
             }
 
-            string userCD = User.Identity.GetUserId();
-            //var model = _db.GetIngredientViewList((int)recipeID);
+            string userID = User.Identity.GetUserId();
+            
 
             Session["LastRecipeID"] = (int)recipeID;
             ViewBag.RecipeID = (int)recipeID;
 
-            //ViewBag.GroceryCarts = new SelectList(db.GroceryCarts, "ID", "Name");
+           
 
-            _db.AddIngredientsToGroceryCart(recipeID, userCD, cartName);
+            _db.AddIngredientsToGroceryCart(recipeID, userID, cartName);
 
             return RedirectToAction("MyGroceryList", "GroceryCarts", new { id = cartID });
 
 
-            //return View(model);
+         
 
         }
 
@@ -279,7 +266,7 @@ namespace CarriesFrugalLiving.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public ActionResult CreateNewCart([Bind(Include = "Email,UserCD,Name,CreateDate")] GroceryCart groceryCart)
+        public ActionResult CreateNewCart([Bind(Include = "Email,UserID,Name,CreateDate")] GroceryCart groceryCart)
         {
             int recipeID = 0;
             if (Session["LastRecipeID"] != null) {
@@ -290,7 +277,7 @@ namespace CarriesFrugalLiving.Controllers
             {
 
                 groceryCart.Email = User.Identity.Name;  
-                groceryCart.UserCD = User.Identity.GetUserId();
+                groceryCart.UserID = User.Identity.GetUserId();
                 groceryCart.CreateDate = DateTime.Today;
 
 
@@ -308,6 +295,10 @@ namespace CarriesFrugalLiving.Controllers
 
             return View(groceryCart);
         }
+
+        #endregion
+
+        #region EDIT_RECIPE
 
         // GET: Recipes/Edit/5
         [Authorize(Roles = "Admin, Contributer")]
@@ -379,7 +370,9 @@ namespace CarriesFrugalLiving.Controllers
             return View(_model);
         }
 
+        #endregion
 
+        #region DELETE_RECIPE
 
         // GET: Recipes/Delete/5
         [Authorize(Roles = "Admin, Contributer")]
@@ -411,17 +404,13 @@ namespace CarriesFrugalLiving.Controllers
             return RedirectToAction("Index");
         }
 
-        //iMAGE UPLOAD
-        [Authorize(Roles = "Admin, Contributer")]
-        public ActionResult Upload(int id)
-        {
-            if (db.Recipes.Find(id) == null)
-            {
-                
-            }
-            ViewBag.RecipeID = id;
-            return View();
-        }
+
+        #endregion
+
+
+        #region IMAGE_PROCESSING
+
+  
        
 
         public ActionResult Picture(int? recipeId) {
@@ -446,7 +435,21 @@ namespace CarriesFrugalLiving.Controllers
              else return null ;
         }
 
+        //iMAGE UPLOAD
+        [Authorize(Roles = "Admin, Contributer")]
+        public ActionResult Upload(int id)
+        {
+            if (db.Recipes.Find(id) == null)
+            {
+                return new HttpNotFoundResult("Recipe not found");
+            }
+            ViewBag.RecipeID = id;
+            return View();
+        }
+
+
         [HttpPost]
+        [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Contributer")]
         public ActionResult Upload(Image image)
         {
@@ -507,6 +510,8 @@ namespace CarriesFrugalLiving.Controllers
             return RedirectToAction("Details", new { id = recipeid } ); // if recipeid = 0 will return to list
 
         }
+        #endregion
+
 
         #region INGREDIENTS
 
@@ -577,13 +582,9 @@ namespace CarriesFrugalLiving.Controllers
 
                 try
                 {
-                    if (fc["addingredient"] == "Add Ingredient")
-                    {
-                        return RedirectToAction("EditIngredient", new { id = _model.RecipeID });
-                    }
-                    else {
-                        return RedirectToAction("Details", new { id = _model.RecipeID });
-                    }
+                   
+                    return RedirectToAction("Details", new { id = _model.RecipeID });
+                   
                 } catch (Exception e)
                 {
                     sErr = e.Message;

@@ -115,6 +115,10 @@ namespace CarriesFrugalLiving.Models
 
         [MaxLength(100)]
         public string UserCd { get; set; }
+        
+        [MaxLength(100)]
+        public string UserId { get; set; }
+
         public eReleasedFlag ReleasedFlag
         {
             get { return _releasedFlag; }

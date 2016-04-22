@@ -291,6 +291,14 @@
     <Compile Include="Migrations\201604200826271_ingredient.Designer.cs">
       <DependentUpon>201604200826271_ingredient.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201604210028008_recipeuserid.cs" />
+    <Compile Include="Migrations\201604210028008_recipeuserid.Designer.cs">
+      <DependentUpon>201604210028008_recipeuserid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604210042495_grocerycartuserid.cs" />
+    <Compile Include="Migrations\201604210042495_grocerycartuserid.Designer.cs">
+      <DependentUpon>201604210042495_grocerycartuserid.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AbuseReport.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -312,6 +320,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="utils\EmailSender.cs" />
+    <Compile Include="utils\HtmlEncode.cs" />
     <Compile Include="utils\StaticImageResizer.cs" />
     <Compile Include="ViewModels\ContactEmail.cs" />
     <Compile Include="ViewModels\FeatureView.cs" />
@@ -694,6 +703,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201604200826271_ingredient.resx">
       <DependentUpon>201604200826271_ingredient.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604210028008_recipeuserid.resx">
+      <DependentUpon>201604210028008_recipeuserid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604210042495_grocerycartuserid.resx">
+      <DependentUpon>201604210042495_grocerycartuserid.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
