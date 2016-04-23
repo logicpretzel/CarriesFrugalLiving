@@ -71,4 +71,20 @@
                  $("#list").html(response);
              });
         }
+
+        function up(id) {
+            var url = "/Recipes/MoveIngredientUp/";
+            $.get(url, { id: id })
+             .done(function (response) {
+                 $("#list").html(response);
+             });
+        }
+
+        function dn(id) {
+            var url = "/Recipes/MoveIngredientDn/";
+            $.get(url, { id: id })
+             .done(function (response) {
+                 $("#list").html(response);
+             });
+        }
 </script>
