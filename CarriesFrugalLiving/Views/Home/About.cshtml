@@ -4,10 +4,35 @@
 <h2 class="fonttitle color-primary-0  well-lg" >@ViewBag.Title</h2>
 <section>
   
-    <div class=" floatright"> <img src="~/Images/dollar.png" alt="dollar bill" class="flex" /> </div>
+    <div class = " floatright"> <img src="~/Images/dollar.png" alt="dollar bill" class="flex" /> </div>
+    <h3 class="fonttitle ">Our Mission and Vision</h3>
+    <div class="row">
+       
+        <div class="panel col-sm-4">
+            @Html.Action("Featured", "Features", new { id = 10 })
+        </div>
+
+       
+    </div>
+    <div class="row">
+        <aside class="aside1color asideright col-sm-6">
+            <div class="panel panel-warning ">
+                @Html.Action("Featured", "Features", new { id = 9 })
+            </div>
+        </aside>
+        <div class="panel col-sm-5">
+            @Html.Action("Featured", "Features", new { id = 11})
+        </div>
 
 
-    <h3 class="fonttitle ">Mission</h3>
+    </div>
+    <div class="row">
+        <div class="panel col-sm-8">
+            @Html.Action("Featured", "Features", new { id = 8 })
+        </div>
 
+       
+    </div>
+   
 </section>
 
